@@ -10,18 +10,26 @@ namespace LibraryCA
 		{
 
 
-			using (var db = new BookRepository())
+			using (var dbContext = new DbBook())
 			{
 				Console.WriteLine("Enter a name for your book");
 				var name = Console.ReadLine();
 
 				var book = new Book { Name = name };
-				db.Books.Add(book);
-				db.SaveChanges();
+				//db.Books.Add(book);
+				//db.SaveChanges();
 
-				var query = from b in db.Books
+				var repository = new BookRepository(dbContext);
+				repository.Add(book);
+				repository.Commit();
+
+				var query = from b in dbContext.Books
 							orderby b.Name
 							select b;
+
+				Console.WriteLine("Number of books in repository");
+				var numberOfBooks = repository.CountBooks();
+				Console.WriteLine(numberOfBooks);
 
 				Console.WriteLine("All books in the database");
 				foreach (var item in query)

@@ -5,28 +5,42 @@ namespace LibraryDomain
 {
 	public class DbBook : DbContext
 	{
+		public DbBook()
+		{
+			Database.Connection.ConnectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=Library;Integrated Security=True;";
+			Database.Initialize(false);
+		}
+
 		public DbSet<Book> Books { get; set; }
 	}
 
 	public class BookRepository : DbBook
 	{
+		private readonly DbBook _dbBookContext;
 
-		DbContext _ctx;
-		DbSet<Book> _set;
+		public BookRepository(DbBook dbBookContext)
+		{
+			_dbBookContext = dbBookContext;
+		}
 
 		public void Add(Book newBook)
 		{
-			_set.Add(newBook);
+			_dbBookContext.Books.Add(newBook);
 		}
 
 		public void Commit()
 		{
-			_ctx.SaveChanges();
+			_dbBookContext.SaveChanges();
 		}
 
-		public void Delete()
+		public void Delete(Book book)
 		{
+			_dbBookContext.Books.Remove(book);
+		}
 
+		public int CountBooks()
+		{
+			return _dbBookContext.Books.Count();
 		}
 	}
 }
