@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace LibraryDomain
@@ -14,7 +15,7 @@ namespace LibraryDomain
 		public DbSet<Book> Books { get; set; }
 	}
 
-	public class BookRepository : DbBook
+	public class BookRepository
 	{
 		private readonly DbBook _dbBookContext;
 
@@ -42,5 +43,12 @@ namespace LibraryDomain
 		{
 			return _dbBookContext.Books.Count();
 		}
+
+		public IEnumerable<Book> GetBooks()
+		{
+			return _dbBookContext.Books.ToList();
+		}
+
+	
 	}
 }

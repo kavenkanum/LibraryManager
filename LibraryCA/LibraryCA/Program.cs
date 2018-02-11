@@ -8,33 +8,26 @@ namespace LibraryCA
 	{
 		static void Main(string[] args)
 		{
-
-
 			using (var dbContext = new DbBook())
 			{
-				Console.WriteLine("Enter a name for your book");
-				var name = Console.ReadLine();
+				var userActions = new UserActions(new BookRepository(dbContext));
 
-				var book = new Book { Name = name };
-				//db.Books.Add(book);
-				//db.SaveChanges();
-
-				var repository = new BookRepository(dbContext);
-				repository.Add(book);
-				repository.Commit();
-
-				var query = from b in dbContext.Books
-							orderby b.Name
-							select b;
-
-				Console.WriteLine("Number of books in repository");
-				var numberOfBooks = repository.CountBooks();
-				Console.WriteLine(numberOfBooks);
-
-				Console.WriteLine("All books in the database");
-				foreach (var item in query)
+				userActions.DisplayMenu();
+				var userInput = Console.ReadLine();
+				switch (userInput)
 				{
-					Console.WriteLine(item.Name);
+					case "1":
+						userActions.AddBook();
+						break;
+					case "2":
+						userActions.CountBooks();
+						break;
+					case "3":
+						userActions.ListOfBooks();
+						break;
+					case "4":
+						userActions.DeleteBooks();
+						break;
 				}
 
 				Console.WriteLine("Press any key to exit...");
@@ -42,5 +35,7 @@ namespace LibraryCA
 			}
 
 		}
+
+
 	}
 }
