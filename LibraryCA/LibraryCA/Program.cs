@@ -46,26 +46,30 @@ namespace LibraryCA
 			using (var dbContext = new DbBook())
 			{
 				var userActions = new UserActions(new BookRepository(dbContext));
-
-				userActions.DisplayMenu();
-				var userInput = Console.ReadLine();
-				switch (userInput)
+				CommandParser commandParser = new CommandParser();
+				var availableCommands = new Dictionary<Command, Action>()
 				{
-					case "1":
-						userActions.AddBook();
-						break;
-					case "2":
-						userActions.CountBooks();
-						break;
-					case "3":
-						userActions.ListOfBooks();
-						break;
-					case "4":
-						userActions.DeleteBooks();
-						break;
-				}
+					{Command.Add, userActions.AddBook },
+					{Command.Count, userActions.CountBooks },
+					{Command.List, userActions.ListOfBooks },
+					{Command.Delete, userActions.DeleteBooks },
+					{Command.Edit, userActions.EditOrDeleteBook },
+					{Command.Unknown, userActions.Exit }
+				};
+				
+				var currentCommand = Command.Unknown;
 
-				Console.WriteLine("Press any key to exit...");
+				do
+				{
+					userActions.DisplayMenu();
+					currentCommand = commandParser.GetCommandFromUser();
+
+					if (availableCommands.ContainsKey(currentCommand))
+					{
+						availableCommands[currentCommand]();
+					}
+				} while (currentCommand != Command.Unknown);
+
 				Console.ReadKey();
 			}
 
