@@ -24,6 +24,19 @@ namespace LibraryDomain
 			_dbBookContext = dbBookContext;
 		}
 
+		public void AddOrUpdateNumberOfAvailableBooks(Book newBook)
+		{
+			var existingBook = _dbBookContext.Books.SingleOrDefault(b => b.Name == newBook.Name && b.Author == newBook.Author);
+			if (existingBook != null)
+			{
+				existingBook.NumberAvailableBooks += newBook.NumberAvailableBooks;
+			}
+			else
+			{
+				Add(newBook);
+			}
+		}
+
 		public void Add(Book newBook)
 		{
 			_dbBookContext.Books.Add(newBook);
@@ -49,6 +62,10 @@ namespace LibraryDomain
 			return _dbBookContext.Books.ToList();
 		}
 
+		public Book SelectBook(Book selectedBook)
+		{
+			return _dbBookContext.Books.SingleOrDefault(p => p.Name == selectedBook.Name && p.Author == selectedBook.Author);
+		}
 	
 	}
 }

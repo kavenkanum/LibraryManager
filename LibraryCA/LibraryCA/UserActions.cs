@@ -29,8 +29,10 @@ namespace LibraryCA
 			var name = Console.ReadLine();
 			Console.WriteLine("Enter an author's  name:");
 			var author = Console.ReadLine();
-			var book = new Book { Name = name , Author = author};
-			_bookRepository.Add(book);
+			Console.WriteLine("Enter a number of books");
+			var number = Console.ReadLine();
+			var book = new Book { Name = name , Author = author, NumberAvailableBooks = int.Parse(number)};
+			_bookRepository.AddOrUpdateNumberOfAvailableBooks(book);
 			_bookRepository.Commit();
 		}
 
@@ -43,11 +45,20 @@ namespace LibraryCA
 
 		public void ListOfBooks()
 		{
+			var index = 0;
 			Console.WriteLine("List of your books:");
 			foreach (var book in _bookRepository.GetBooks())
 			{
-				Console.WriteLine(book.Name);
+				index++;
+				Console.WriteLine($"{index}. {book.Name}");
+				Console.WriteLine($"Written by: {book.Author}");
+				Console.WriteLine($"Available books: {book.NumberAvailableBooks}");
 			}			
+		}
+
+		internal void Exit()
+		{
+			Console.WriteLine("Press any key to exit...");
 		}
 
 		public void DeleteBooks()
@@ -59,6 +70,18 @@ namespace LibraryCA
 				_bookRepository.Delete(book);
 			}
 			_bookRepository.Commit();
+		}
+
+		public void EditOrDeleteBook()
+		{
+			Console.WriteLine("For edit or delete book please enter a book's name:");
+			var name = Console.ReadLine();
+			Console.WriteLine("Enter an author's  name:");
+			var author = Console.ReadLine();
+			var selectedBook = new Book { Name = name, Author = author };
+			_bookRepository.SelectBook(selectedBook);
+
+			Console.WriteLine(selectedBook.NumberAvailableBooks);
 		}
 	}
 }

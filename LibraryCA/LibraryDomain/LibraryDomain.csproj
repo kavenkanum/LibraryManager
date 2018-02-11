@@ -54,6 +54,8 @@
   <ItemGroup>
     <Compile Include="Book.cs" />
     <Compile Include="BookRepository.cs" />
+    <Compile Include="PeopleRepository.cs" />
+    <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
