@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using LibraryMVC.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using LibraryMVC.Models;
 
@@ -10,8 +11,17 @@ namespace LibraryMVC.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IBookRepository _bookRepository;
+
+        public HomeController(IBookRepository bookRepository)
+        {
+            _bookRepository = bookRepository;
+        }
+
         public IActionResult Index()
         {
+            var books = _bookRepository.GetBooks();
+            
             return View();
         }
 
