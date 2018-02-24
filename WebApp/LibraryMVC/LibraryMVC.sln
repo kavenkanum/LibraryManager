@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.0.0
-MinimumVisualStudioVersion = 10.0.0.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryMVC", "LibraryMVC.csproj", "{C09B4DEA-D261-4588-950D-7CEE42ED786D}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryMVC", "LibraryMVC.csproj", "{C09B4DEA-D261-4588-950D-7CEE42ED786D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryMVC.Domain", "..\LibraryMVC.Domain\LibraryMVC.Domain.csproj", "{B789D442-319D-427D-BF96-9FAD6B9627AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{C09B4DEA-D261-4588-950D-7CEE42ED786D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C09B4DEA-D261-4588-950D-7CEE42ED786D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C09B4DEA-D261-4588-950D-7CEE42ED786D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B789D442-319D-427D-BF96-9FAD6B9627AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B789D442-319D-427D-BF96-9FAD6B9627AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B789D442-319D-427D-BF96-9FAD6B9627AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B789D442-319D-427D-BF96-9FAD6B9627AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {39E49652-B549-4D63-865C-747DABC0FF2C}
 	EndGlobalSection
 EndGlobal
