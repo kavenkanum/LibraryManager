@@ -1,0 +1,32 @@
+﻿@model IEnumerable<LibraryMVC.Domain.Models.Book>
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Nazwa</th>
+            <th>Autor</th>
+            <th>Ilość dostępnych sztuk</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.ID</td>
+                <td>@book.Name</td>
+                <td>@book.Author</td>
+                <td>@book.NumberAvailableBooks</td>
+                <td>
+                    <a href="@Url.Action("View", "Book", new { book.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Podgląd</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
