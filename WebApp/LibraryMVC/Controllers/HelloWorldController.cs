@@ -9,17 +9,20 @@ namespace LibraryMVC.Controllers
 {
     public class HelloWorldController : Controller
     {
-        public string Index()
+        public IActionResult Index()
         {
-            return "This is my <b>default</b> action...";
+            return View("dupa");
         }
-        
+
         // 
         // GET: /HelloWorld/Welcome/ 
 
-        public string Welcome(string name = null, int id = 1)
+        public ActionResult Welcome(string name = null, int numTimes = 1)
         {
-            return HttpUtility.HtmlEncode("Hello " + name + ", ID is: " + id);
+            ViewBag.Message = "Hello " + name;
+            ViewBag.NumTimes = numTimes;
+
+            return View();
         }
     }
 }
