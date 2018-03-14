@@ -39,9 +39,9 @@
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
                     <li class="active"><a href="#">Ksionszki <span class="sr-only">(current)</span></a></li>
-                    <li><a asp-area="" asp-controller="Books" asp-action="List">Książki w bazie</a></li>
-                    <li><a href="#">Dodaj</a></li>
-                    <li><a href="#">Usuń</a></li>
+                    <li>@Html.ActionLink("Lista książek", "List", "Books")</li>
+                    <li>@Html.ActionLink("Dodaj", "Add", "Books")</li>
+                    <li>@Html.ActionLink("Usuń", "Delete", "Books")</li>
                 </ul>
                 <ul class="nav nav-sidebar">
                     <li>

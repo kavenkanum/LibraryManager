@@ -1,4 +1,5 @@
-﻿using LibraryMVC.Domain.Repositories;
+﻿using LibraryMVC.Domain.Models;
+using LibraryMVC.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryMVC.Controllers
@@ -17,5 +18,26 @@ namespace LibraryMVC.Controllers
             var books = bookRepository.GetBooks();
             return View(books);
         }
+
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Add(Book book)
+        {
+            bookRepository.Add(book);
+            bookRepository.Commit();
+            return RedirectToAction("List");
+        }
+
+        public IActionResult Delete()
+        {
+            var books = bookRepository.GetBooks();
+            return View(books);
+            
+        }
+        
     }
 }

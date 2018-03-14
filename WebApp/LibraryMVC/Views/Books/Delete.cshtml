@@ -1,0 +1,35 @@
+﻿@model IEnumerable<LibraryMVC.Domain.Models.Book>
+
+@{
+    ViewData["Title"] = "Usuń";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nazwa</th>
+                <th>Autor</th>
+                <th>Ilość dostępnych sztuk</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.ID</td>
+                <td>@book.Name</td>
+                <td>@book.Author</td>
+                <td>@book.NumberAvailableBooks</td>
+                <td>
+                    <a href="@Url.Action("Delete", "Book", new { book.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Usuń pozycję</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+
