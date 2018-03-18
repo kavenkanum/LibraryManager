@@ -36,7 +36,11 @@ namespace LibraryMVC.Controllers
         {
             var books = bookRepository.GetBooks();
             return View(books);
-            
+        }
+
+        public IActionResult Edit()
+        {
+            return View();
         }
         
     }
