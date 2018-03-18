@@ -19,7 +19,8 @@ namespace LibraryMVC.Controllers
 
         public IActionResult View(int id)
         {
-            return View();
+            var book = bookRepository.Find(id);
+            return View(book);
         }
 
         public IActionResult Delete(int id)

@@ -1,9 +1,11 @@
-﻿
+﻿@model LibraryMVC.Domain.Models.Book
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = @Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<a href="@Url.Action("List", "Books")" class="btn btn-warning"><span class="glyphicon glyphicon glyphicon-hand-left" aria-hidden="true"></span> Powrót</a>
 <h2>Detale książki</h2>
+
+<a href="@Url.Action("List", "Books")" class="btn btn-warning"><span class="glyphicon glyphicon glyphicon-hand-left" aria-hidden="true"></span> Powrót</a>
+
 
