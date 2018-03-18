@@ -16,10 +16,11 @@
         </tr>
     </thead>
     <tbody>
+        @{ int a = 1;}
         @foreach (var book in Model)
         {
-            <tr>
-                <td>@book.ID</td>
+            <tr>   
+                <td>@(a++)</td>
                 <td>@book.Name</td>
                 <td>@book.Author</td>
                 <td>@book.NumberAvailableBooks</td>

@@ -18,10 +18,11 @@
             </tr>
         </thead>
         <tbody>
+            @{int index = 1; }
             @foreach (var book in Model)
         {
             <tr>
-                <td>@book.ID</td>
+                <td>@(index++)</td>
                 <td>@book.Name</td>
                 <td>@book.Author</td>
                 <td>@book.NumberAvailableBooks</td>
