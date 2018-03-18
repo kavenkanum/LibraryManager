@@ -8,6 +8,24 @@
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(function () {
+            var message = "Wróć do mnie!!";
+            var original;
+
+            $(window).focus(function () {
+                if (original) {
+                    document.title = original;
+                }
+            }).blur(function () {
+                var title = $('title').text();
+                if (title != message) {
+                    original = title;
+                }
+                document.title = message;
+            });
+        });
+    </script>
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -28,8 +46,6 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
             </div>
-
-
         </div>
     </nav>
 
@@ -41,18 +57,14 @@
                     <li class="active"><a href="#">Ksionszki <span class="sr-only">(current)</span></a></li>
                     <li>@Html.ActionLink("Lista książek", "List", "Books")</li>
                     <li>@Html.ActionLink("Dodaj", "Add", "Books")</li>
+                    <li>@Html.ActionLink("Edytuj", "Edit", "Books")</li>
                     <li>@Html.ActionLink("Usuń", "Delete", "Books")</li>
                 </ul>
                 <ul class="nav nav-sidebar">
-                    <li>
-                        @Html.ActionLink("Coś miłego", "Index", "HelloWorld")
-                    </li>
-                    <li>
-                    <a class="btn navbar-collapse" href="@Url.Action("Index", "HelloWorld")">Coś miłego</a>
-                    </li>
-                    <li><a href="">One more nav</a></li>
-                    <li><a href="">Another nav item</a></li>
-                    <li><a href="">More navigation</a></li>
+                    <li>@Html.ActionLink("Lista wypożyczających", "List", "People")</li>
+                    <li>@Html.ActionLink("Dodaj", "Add", "People")</li>
+                    <li>@Html.ActionLink("Edytuj", "Edit", "People")</li>
+                    <li>@Html.ActionLink("Dezaktywyj/Aktywuj", "Activation", "People")</li>
                 </ul>
             </div>
             <div class="col-sm-9 col-md-10 main">
