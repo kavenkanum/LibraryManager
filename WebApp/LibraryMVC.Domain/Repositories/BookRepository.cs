@@ -12,6 +12,9 @@ namespace LibraryMVC.Domain.Repositories
         Book SelectBook(Book selectedBook);
         void Delete(Book book);
         Book Find(int ID);
+        void Edit(Book book);
+        IEnumerable<Book> GetAvailableBooks();
+ 
     }
 
     public class BookRepository : IBookRepository
@@ -71,5 +74,16 @@ namespace LibraryMVC.Domain.Repositories
             Book book = _libraryDbContext.Books.Find(ID);
             return book;
         }
+
+        public void Edit(Book book)
+        {
+            _libraryDbContext.Entry(book).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        }
+
+        public IEnumerable<Book> GetAvailableBooks()
+        {
+            return _libraryDbContext.Books.Where(b => b.NumberAvailableBooks>0).ToList();
+        }
+
     }
 }

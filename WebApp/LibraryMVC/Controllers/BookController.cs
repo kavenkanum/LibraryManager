@@ -16,7 +16,6 @@ namespace LibraryMVC.Controllers
             bookRepository = _bookRepository;
         }
        
-
         public IActionResult View(int id)
         {
             var book = bookRepository.Find(id);
@@ -37,7 +36,28 @@ namespace LibraryMVC.Controllers
             Book book = bookRepository.Find(id);
             bookRepository.Delete(book);
             bookRepository.Commit();
-            return RedirectToAction("Delete", "Books");
+            return RedirectToAction("List", "Books");
+        }
+
+        public IActionResult Edit(int id)
+        {
+            Book book = bookRepository.Find(id);
+            return View(book);
+        }
+
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+
+        public IActionResult Edit(Book book)
+        {
+            if(ModelState.IsValid)
+            {
+                bookRepository.Edit(book);
+                bookRepository.Commit();
+                return RedirectToAction("List", "Books");
+            }
+            return View(book);
+            
         }
     }
 }
