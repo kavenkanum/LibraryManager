@@ -1,0 +1,46 @@
+﻿@model IEnumerable<LibraryMVC.Domain.Models.User>
+
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int a = 1;}
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@(a++)</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>
+                    @if (user.IsActive)
+                        {
+                    <span>Aktywny</span>
+                        }
+                    @if(!user.IsActive)
+                        {
+                    <span>Nieaktywny</span>
+                        }
+                </td>
+                <td>
+                    <a href="@Url.Action("View", "User", new { user.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Podgląd</a>
+                    <a href="@Url.Action("Edit", "User", new { user.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Edytuj</a>
+                    <a href="@Url.Action("Delete", "User", new { user.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Usuń</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

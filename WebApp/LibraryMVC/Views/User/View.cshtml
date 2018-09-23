@@ -1,0 +1,43 @@
+﻿@model LibraryMVC.Domain.Models.User
+
+@{
+    ViewData["Title"] = "Użytkownik";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.NickName</h2>
+<dt>
+    @Html.DisplayNameFor(model => model.FirstName)
+</dt>
+<dd>
+    @Html.DisplayFor(model => model.FirstName)
+</dd>
+<dt>
+    @Html.DisplayNameFor(model => model.LastName)
+</dt>
+<dd>
+    @Html.DisplayFor(model => model.LastName)
+</dd>
+<dt>
+    Status:
+</dt>
+<dd>
+    @if (Model.IsActive)
+    {
+        <p>Aktywny</p>
+    }
+    @if (!Model.IsActive)
+    {
+        <p>Nieaktywny</p>
+    }
+</dd>
+<dt>
+    @Html.DisplayNameFor(model => model.BorrowedBooks)
+</dt>
+<dd>
+    @Html.DisplayFor(model => model.BorrowedBooks)
+</dd>
+
+<div>
+    @Html.ActionLink("Wróć", "List", "Users")
+</div>
