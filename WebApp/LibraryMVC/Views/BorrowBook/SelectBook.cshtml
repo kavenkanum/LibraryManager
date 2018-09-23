@@ -1,0 +1,43 @@
+﻿@model LibraryMVC.Controllers.SelectBookViewModel
+@{
+    ViewData["Title"] = "SelectBook";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Wybierz książkę</h3>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int a = 1;}
+        @foreach (var book in Model.AvailableBooks)
+        {
+            <tr>
+                <td>@(a++)</td>
+                <td>@book.Name</td>
+                <td>@book.Author</td>
+                <td>
+                    @if (book.NumberAvailableBooks>0)
+                    {
+                        @book.NumberAvailableBooks;
+                    }
+                </td>
+                <td>
+                        <a href="@Url.Action("BorrowBook", "BorrowBook", new { bookId = book.ID, forUserId = Model.UserId })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Wypożycz</a>
+                </td>
+                <td>
+                    <a href="@Url.Action("SelectUser", "BorrowBook", new { book.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Wróć</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

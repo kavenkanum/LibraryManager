@@ -1,0 +1,31 @@
+﻿@model IEnumerable<LibraryMVC.Domain.Models.User>
+@{
+    ViewData["Title"] = "SelectBorrowingUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Wybierz użytkownika</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Wypożyczone książki</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int a = 1;}
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@(a++)</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.BorrowedBooks</td>
+            </tr>
+        }
+    </tbody>
+</table>
