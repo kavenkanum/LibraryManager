@@ -28,13 +28,16 @@ namespace LibraryMVC
 
             services.AddDbContext<LibraryDbContext>(builder =>
             {
-                builder.UseSqlServer(Configuration.GetConnectionString("LibraryDB"));
+                builder.UseSqlServer(Configuration.GetConnectionString("LibraryDB"), optionsBuilder => optionsBuilder.MigrationsAssembly("LibraryMVC"));
+
             });
             services.AddTransient<IBookRepository, BookRepository>();
+            services.AddTransient<IUsersRepository, UsersRepository>();
+            services.AddTransient<IBorrowedBookRepository, BorrowedBookRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, LibraryDbContext libraryDbContext)
         {
             if (env.IsDevelopment())
             {
@@ -44,6 +47,8 @@ namespace LibraryMVC
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            libraryDbContext.Database.EnsureCreated();
 
             app.UseStaticFiles();
 

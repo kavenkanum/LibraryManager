@@ -1,0 +1,5 @@
+"create-migration": "dotnet ef migrations add _name_",
+"remove-migration": "dotnet ef migrations remove",
+"apply-migrations-to-db": "dotnet ef database update",
+"revert-migration-to-db": "dotnet ef database update _name_",
+"reset-db": "dotnet ef database update 0"
