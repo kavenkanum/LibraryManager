@@ -5,7 +5,12 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryMVC", "LibraryMVC.csproj", "{C09B4DEA-D261-4588-950D-7CEE42ED786D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryMVC.Domain", "..\LibraryMVC.Domain\LibraryMVC.Domain.csproj", "{B789D442-319D-427D-BF96-9FAD6B9627AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryMVC.Domain", "..\LibraryMVC.Domain\LibraryMVC.Domain.csproj", "{B789D442-319D-427D-BF96-9FAD6B9627AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7662DEED-650E-448D-B9EA-067CDF4A3D1B}"
+	ProjectSection(SolutionItems) = preProject
+		migration.txt = migration.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

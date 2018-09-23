@@ -7,4 +7,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Authentication">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.authentication\2.0.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

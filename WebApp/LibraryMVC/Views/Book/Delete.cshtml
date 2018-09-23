@@ -33,9 +33,9 @@
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> 
-            @Html.ActionLink("Back to List", "Delete", "Books")
-        </div>
+    <div class="form-actions no-color">
+        <input type="submit" value="Usuń" class="btn btn-default" />
+        <a href="@Url.Action("List", "Books")" class="btn btn-default">Anuluj</a>
+    </div>
     }
 </div>
