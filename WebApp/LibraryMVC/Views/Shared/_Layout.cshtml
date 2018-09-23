@@ -54,17 +54,17 @@
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
-                    <li class="active"><a href="#">Ksionszki <span class="sr-only">(current)</span></a></li>
+                    <li class="active"><a href="#">Książki <span class="sr-only">(current)</span></a></li>
                     <li>@Html.ActionLink("Lista książek", "List", "Books")</li>
                     <li>@Html.ActionLink("Dodaj", "Add", "Books")</li>
-                    <li>@Html.ActionLink("Edytuj", "Edit", "Books")</li>
-                    <li>@Html.ActionLink("Usuń", "Delete", "Books")</li>
+                    <li>@Html.ActionLink("Wypożycz", "SelectUser", "BorrowBook")</li>
+                    <li>@Html.ActionLink("Zwróć", "SelectBorrowingUser", "BorrowBook")</li>
                 </ul>
                 <ul class="nav nav-sidebar">
-                    <li>@Html.ActionLink("Lista wypożyczających", "List", "People")</li>
-                    <li>@Html.ActionLink("Dodaj", "Add", "People")</li>
-                    <li>@Html.ActionLink("Edytuj", "Edit", "People")</li>
-                    <li>@Html.ActionLink("Dezaktywyj/Aktywuj", "Activation", "People")</li>
+                    <li class="active"><a href="#">Użytkownicy <span class="sr-only">(current)</span></a></li>
+                    <li>@Html.ActionLink("Lista użytkowników", "List", "Users")</li>
+                    <li>@Html.ActionLink("Dodaj", "Add", "Users")</li>
+                    <li>@Html.ActionLink("Dezaktywyj/Aktywuj", "Activation", "Users")</li>
                 </ul>
             </div>
             <div class="col-sm-9 col-md-10 main">
