@@ -2,15 +2,18 @@
 using LibraryMVC.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace LibraryMVC.Controllers
 {
     public class BooksController : Controller
     {
         private readonly IBookRepository bookRepository;
+        private readonly IUsersRepository userRepository;
 
-        public BooksController(IBookRepository _bookRepository)
+        public BooksController(IBookRepository _bookRepository, IUsersRepository _userRepository)
         {
             bookRepository = _bookRepository;
+            userRepository = _userRepository;
         }
 
         public IActionResult List()
@@ -38,10 +41,15 @@ namespace LibraryMVC.Controllers
             return View(books);
         }
 
-        public IActionResult Edit()
+        public IActionResult BorrowBook()
         {
-            return View();
+            var users = userRepository.GetUsers();
+            return View(users);
         }
+
+
+
+        
         
     }
 }
