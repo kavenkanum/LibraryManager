@@ -1,0 +1,44 @@
+﻿@model IEnumerable<LibraryMVC.Domain.Repositories.UserWithBorrowedBooks>
+@{
+    ViewData["Title"] = "Historia wypożyczeń";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nr</th>
+            <th>Tytuł</th>
+            <th>Autor</th>
+            <th>Data wypożyczenia</th>
+            <th>Data zwrotu</th>
+            <th>Wypożyczający</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{int index = 1;}
+        @foreach (var u in Model)
+        {
+
+
+            @foreach (var b in u.BorrowedBooks)
+            {
+                <tr>
+                    <td>@(index++)</td>
+                    <td>@b.Book.Name</td>
+                    <td>@b.Book.Author</td>
+                    <td>@b.DateOfBorrow</td>
+                    <td>@b.DateOfReturn</td>
+                    <td>@u.User.FirstName @u.User.LastName</td>
+                </tr>
+            }
+
+
+
+        }
+
+
+
+
+</table>
