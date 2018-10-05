@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LibraryMVC.Domain.Models.User>
+﻿@model IEnumerable<LibraryMVC.Domain.Repositories.UserWithBorrowedBooks>
 @{
     ViewData["Title"] = "SelectBorrowingUser";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -22,9 +22,27 @@
         {
             <tr>
                 <td>@(a++)</td>
-                <td>@user.FirstName</td>
-                <td>@user.LastName</td>
-                <td>@user.BorrowedBooks</td>
+                <td>@user.User.FirstName</td>
+                <td>@user.User.LastName</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Rozwiń ksiązki
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            
+                                @foreach (var book in user.BorrowedBooks)
+                                {
+                                    <a class="dropdown-item" href="@Url.Action("ReturnBook", "BorrowBook", new { borrowedBookId = book.ID})">
+
+                                        <span>@book.Book.Name</span><br />
+
+                                    </a>
+                                }
+                        </div>
+
+                </td>
+
             </tr>
         }
     </tbody>
