@@ -14,7 +14,9 @@ namespace LibraryMVC.Domain.Repositories
         Book Find(int ID);
         void Edit(Book book);
         IEnumerable<Book> GetAvailableBooks();
- 
+
+
+
     }
 
     public class BookRepository : IBookRepository
@@ -68,6 +70,8 @@ namespace LibraryMVC.Domain.Repositories
         {
             return _libraryDbContext.Books.SingleOrDefault(p => p.Name == selectedBook.Name && p.Author == selectedBook.Author);
         }
+
+        
 
         public Book Find(int ID)
         {

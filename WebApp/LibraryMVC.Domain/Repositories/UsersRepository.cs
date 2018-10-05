@@ -16,6 +16,7 @@ namespace LibraryMVC.Domain.Repositories
         IEnumerable<User> GetUsers();
         User Find(int ID);
         void Edit(User user);
+
     }
 
 	public class UsersRepository : IUsersRepository
@@ -70,8 +71,7 @@ namespace LibraryMVC.Domain.Repositories
         {
             return _libraryDbContext.Users.ToList();
         }
-
-
+        
         public User Find(int ID)
         {
             var user = _libraryDbContext.Users.Find(ID);

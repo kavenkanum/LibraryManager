@@ -8,7 +8,7 @@ namespace LibraryMVC.Domain.Models
         public string NickName { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
-        public List<BorrowedBook> BorrowedBooks { get; set; }
+        public virtual List<BorrowedBook> BorrowedBooks { get; set; }
         public bool IsActive { get; set; }
 	}
 }
