@@ -13,5 +13,8 @@ namespace LibraryMVC.Domain.Models
 
         public int UserId { get; set; }
         public User User { get; set; }
+
+        public DateTime DateOfBorrow { get; set; }
+        public DateTime? DateOfReturn { get; set; }
     }
 }
