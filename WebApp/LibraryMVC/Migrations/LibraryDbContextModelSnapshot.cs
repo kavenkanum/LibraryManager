@@ -43,6 +43,10 @@ namespace LibraryMVC.Migrations
 
                     b.Property<int>("BookId");
 
+                    b.Property<DateTime>("DateOfBorrow");
+
+                    b.Property<DateTime>("DateOfReturn");
+
                     b.Property<int>("UserId");
 
                     b.HasKey("ID");
@@ -75,12 +79,12 @@ namespace LibraryMVC.Migrations
             modelBuilder.Entity("LibraryMVC.Domain.Models.BorrowedBook", b =>
                 {
                     b.HasOne("LibraryMVC.Domain.Models.Book", "Book")
-                        .WithMany()
+                        .WithMany("BorrowingUsers")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("LibraryMVC.Domain.Models.User", "User")
-                        .WithMany()
+                        .WithMany("BorrowedBooks")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
