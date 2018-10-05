@@ -1,41 +1,44 @@
-﻿@model LibraryMVC.Domain.Models.User
+﻿@model LibraryMVC.Controllers.UserViewModel
 
 @{
     ViewData["Title"] = "Użytkownik";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Model.NickName</h2>
+<h2>@Model.User.NickName</h2>
 <dt>
-    @Html.DisplayNameFor(model => model.FirstName)
+    Imię:
 </dt>
 <dd>
-    @Html.DisplayFor(model => model.FirstName)
+    @Html.DisplayFor(model => model.User.FirstName)
 </dd>
 <dt>
-    @Html.DisplayNameFor(model => model.LastName)
+    Nazwisko:
 </dt>
 <dd>
-    @Html.DisplayFor(model => model.LastName)
+    @Html.DisplayFor(model => model.User.LastName)
 </dd>
 <dt>
     Status:
 </dt>
 <dd>
-    @if (Model.IsActive)
+    @if (Model.User.IsActive)
     {
         <p>Aktywny</p>
     }
-    @if (!Model.IsActive)
+    @if (!Model.User.IsActive)
     {
         <p>Nieaktywny</p>
     }
 </dd>
 <dt>
-    @Html.DisplayNameFor(model => model.BorrowedBooks)
+    Obecnie wypożyczone książki:
 </dt>
 <dd>
-    @Html.DisplayFor(model => model.BorrowedBooks)
+    @foreach(var book in Model.BorrowedBooks)
+    {
+    @book.Name<br/>
+    }
 </dd>
 
 <div>

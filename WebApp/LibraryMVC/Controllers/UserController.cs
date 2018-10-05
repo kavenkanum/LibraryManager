@@ -11,10 +11,12 @@ namespace LibraryMVC.Controllers
     public class UserController : Controller
     {
         private readonly IUsersRepository _usersRepository;
+        private readonly IBorrowedBookRepository _borrowedBookRepository;
 
-        public UserController(IUsersRepository usersRepository)
+        public UserController(IUsersRepository usersRepository, IBorrowedBookRepository borrowedBookRepository)
         {
             _usersRepository = usersRepository;
+            _borrowedBookRepository = borrowedBookRepository;
         }
 
         public IActionResult Delete(int id)
@@ -54,9 +56,21 @@ namespace LibraryMVC.Controllers
 
         public IActionResult View(int id)
         {
-            var user = _usersRepository.Find(id);
-            return View(user);
+
+            var model = new UserViewModel
+            {
+                User = _usersRepository.Find(id),
+                BorrowedBooks = _borrowedBookRepository.SelectBorrowedBooksByUser(id)
+            };
+
+            return View(model);
         }
 
+    }
+
+    public class UserViewModel
+    {
+        public User User { get; set; }
+        public IEnumerable<Book> BorrowedBooks { get; set; }
     }
 }
