@@ -5,6 +5,12 @@
 }
 
 <h3>Wybierz książkę</h3>
+@using (Html.BeginForm())
+{
+    <p>
+        @Html.TextBox("SearchString") <input type="submit" value="Filter" />
+    </p>
+}
 
 <table class="table table-striped">
     <thead>
@@ -25,13 +31,13 @@
                 <td>@book.Name</td>
                 <td>@book.Author</td>
                 <td>
-                    @if (book.NumberAvailableBooks>0)
+                    @if (book.NumberAvailableBooks > 0)
                     {
                         @book.NumberAvailableBooks;
                     }
                 </td>
                 <td>
-                        <a href="@Url.Action("BorrowBook", "BorrowBook", new { bookId = book.ID, forUserId = Model.UserId })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Wypożycz</a>
+                    <a href="@Url.Action("BorrowBook", "BorrowBook", new { bookId = book.ID, forUserId = Model.UserId })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Wypożycz</a>
                 </td>
                 <td>
                     <a href="@Url.Action("SelectUser", "BorrowBook", new { book.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Wróć</a>

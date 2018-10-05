@@ -23,25 +23,38 @@ namespace LibraryMVC.Controllers
             _borrowedBookRepository = borrowedBookRepository;
         }
 
-        public IActionResult SelectUser()
+        public IActionResult SelectUser(string searchString)
         {
             var users = _usersRepository.GetUsers();
+            
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                users = users.Where(u => u.FirstName.ToLower().Contains(searchString.ToLower()) || u.LastName.ToLower().Contains(searchString.ToLower()));
+            }
+
             return View(users);
         }
 
         public IActionResult SelectBorrowingUser()
         {
-            var users = _borrowedBookRepository.GetBorrowingUsers();
-            return View(users);
+            var model = _borrowedBookRepository.GetUsersWithBorrowedBooks();
+            
+            return View(model);
         }
 
-        public IActionResult SelectBook(int forUserId)
+        public IActionResult SelectBook(int forUserId, string searchString)
         {
             var model = new SelectBookViewModel
             {
                 AvailableBooks = _bookRepository.GetAvailableBooks(),
                 UserId = forUserId
             };
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                model.AvailableBooks = model.AvailableBooks.Where(b => b.Name.ToLower().Contains(searchString.ToLower()) || b.Author.ToLower().Contains(searchString.ToLower()));
+            }
+
             return View(model);
         }
 
@@ -55,6 +68,19 @@ namespace LibraryMVC.Controllers
                 UserId = forUserId,
                 Book = _bookRepository.Find(bookId)
             };
+            return View(model);
+        }
+
+        public IActionResult ReturnBook(int borrowedBookId)
+        {
+            _borrowedBookRepository.Return(borrowedBookId);
+
+            return View();
+        }
+
+        public IActionResult BorrowingHistory()
+        {
+            var model = _borrowedBookRepository.ListOfAllBorrowedBooks();
             return View(model);
         }
     }

@@ -8,6 +8,14 @@
 <h2>Wybierz użytkownika</h2>
 <p>Uwaga - możesz wybrać tylko użytkownika aktywnego. Jeśli chcesz aktywować użytkownika kliknij przycisk Aktywuj.</p>
 
+@using (Html.BeginForm())
+{
+    <p>
+        @Html.TextBox("SearchString") <input type="submit" value="Filter" />
+    </p>
+}
+
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -44,7 +52,7 @@
                     @if (!user.IsActive)
                     {
                         <a href="@Url.Action("Edit", "User", new { user.ID })" class="btn btn-primary">Aktywuj</a>
-                    }                   
+                    }
 
                 </td>
             </tr>
