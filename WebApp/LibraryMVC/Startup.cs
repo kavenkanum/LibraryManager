@@ -48,8 +48,6 @@ namespace LibraryMVC
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            libraryDbContext.Database.EnsureCreated();
-
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
