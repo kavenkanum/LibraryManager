@@ -25,7 +25,9 @@
                 <td>@book.Author</td>
                 <td>@book.NumberAvailableBooks</td>
                 <td>
-                    <a href="@Url.Action("View", "Book", new { book.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Podgląd</a>
+                    <a href="@Url.Action("View", "Book", new { book.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>Podgląd</a>
+                    <a href="@Url.Action("Edit", "Book", new { book.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>Edytuj</a>
+                    <a href="@Url.Action("Delete", "Book", new { book.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>Usuń</a>
                 </td>
             </tr>
         }
