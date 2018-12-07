@@ -59,5 +59,25 @@ namespace LibraryMVC.Controllers
             return View(book);
             
         }
+
+        public IActionResult AddDescription(Book book)
+        {
+            return View(book);
+        }
+
+        [HttpPost]
+        public IActionResult AddDescription(AddDescriptionModel model)
+        {
+            bookRepository.AddDescritpion(model.Id, model.Description);
+            return RedirectToAction("View", new { model.Id});
+        }
+
     }
+
+    public class AddDescriptionModel
+    {
+        public int Id { get; set; }
+        public string Description { get; set; }
+    }
+    
 }

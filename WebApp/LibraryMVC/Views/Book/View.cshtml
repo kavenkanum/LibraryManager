@@ -5,7 +5,12 @@
 }
 
 <h2>Detale książki</h2>
+<p>
+    @Html.DisplayFor(model => model.Description)
+</p>
 
 <a href="@Url.Action("List", "Books")" class="btn btn-warning"><span class="glyphicon glyphicon glyphicon-hand-left" aria-hidden="true"></span> Powrót</a>
+<a href="@Url.Action("AddDescription", "Book", new { Model.ID })" class="button">Dodaj opis</a>
+<a href="@Url.Action("AddImage", "Book")" class="button">Dodaj obraz</a>
 
 

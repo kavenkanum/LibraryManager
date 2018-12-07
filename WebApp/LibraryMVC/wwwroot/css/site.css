@@ -4,7 +4,7 @@
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
-    padding-top: 50px;
+    padding: 50px;
 }
 
 
@@ -87,4 +87,21 @@ body {
 
 .main .page-header {
     margin-top: 0;
+}
+
+.dupa {
+    text-align: right;
+    color: green;
+}
+
+.nav-sidebar-heading {
+    color: hotpink;
+    padding-left: 200px;
+    margin-left: 100px;
+}
+
+.button {
+    background-color: darkblue;
+    color: white;
+    text-decoration-style: solid;
 }
