@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace LibraryMVC.Domain.Models
@@ -15,7 +15,9 @@ namespace LibraryMVC.Domain.Models
 		public string Author { get; set; }
 		public int NumberAvailableBooks { get; set; }
         public IEnumerable<BorrowedBook> BorrowingUsers { get; set; }
+        public string Description { get; set; }
+        public string Image { get; set; }
 
 
-	}
+    }
 }

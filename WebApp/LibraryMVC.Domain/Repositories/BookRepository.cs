@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using LibraryMVC.Domain.Models;
 
@@ -14,8 +14,7 @@ namespace LibraryMVC.Domain.Repositories
         Book Find(int ID);
         void Edit(Book book);
         IEnumerable<Book> GetAvailableBooks();
-
-
+        void AddDescritpion(int id, string newDescription);
 
     }
 
@@ -87,6 +86,13 @@ namespace LibraryMVC.Domain.Repositories
         public IEnumerable<Book> GetAvailableBooks()
         {
             return _libraryDbContext.Books.Where(b => b.NumberAvailableBooks>0).ToList();
+        }
+
+        public void AddDescritpion(int id, string newDescription)
+        {
+            var book = Find(id);
+            book.Description = newDescription;
+            _libraryDbContext.SaveChanges();
         }
 
     }
