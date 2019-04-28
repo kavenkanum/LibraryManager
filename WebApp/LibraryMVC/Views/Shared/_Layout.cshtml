@@ -27,12 +27,9 @@
         });
     </script>
 </head>
-<body>
+<body class="aneta-theme">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <div class="navbar-header">
-                <a href="@Url.Action("Index", "Home")" class="navbar-brand">LibraryMVC</a>
-            </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="@Url.Action("Index", "Home")">Strona główna</a></li>
@@ -47,19 +44,18 @@
 
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
+                <a href="@Url.Action("Index", "Home")" class="navbar-brand">LibraryMVC</a>
                 <ul class="nav nav-sidebar">
-                    <li class="active"><a href="#">Książki <span class="sr-only">(current)</span></a></li>
-                    <li>@Html.ActionLink("Lista książek", "List", "Books")</li>
-                    <li>@Html.ActionLink("Dodaj", "Add", "Books")</li>
-                    <li>@Html.ActionLink("Wypożycz", "SelectUser", "BorrowBook")</li>
-                    <li>@Html.ActionLink("Zwróć", "SelectBorrowingUser", "BorrowBook")</li>
-                    <li>@Html.ActionLink("Historia wypożyczeń", "BorrowingHistory", "BorrowBook")</li>
-                </ul>
-                <ul class="nav nav-sidebar">
-                    <li class="active"><a href="#">Użytkownicy <span class="sr-only">(current)</span></a></li>
-                    <li>@Html.ActionLink("Lista użytkowników", "List", "Users")</li>
-                    <li>@Html.ActionLink("Dodaj", "Add", "Users")</li>
-                    <li>@Html.ActionLink("Dezaktywyj/Aktywuj", "Activation", "Users")</li>
+                    <li class="sidebar-header">Książki</li>
+                    <li class="sidebar-item active">@Html.ActionLink("Lista książek", "List", "Books")</li>
+                    <li class="sidebar-item active">@Html.ActionLink("Dodaj", "Add", "Books")</li>
+                    <li class="sidebar-item active">@Html.ActionLink("Wypożycz", "SelectUser", "BorrowBook")</li>
+                    <li class="sidebar-item active">@Html.ActionLink("Zwróć", "SelectBorrowingUser", "BorrowBook")</li>
+                    <li class="sidebar-item active">@Html.ActionLink("Historia wypożyczeń", "BorrowingHistory", "BorrowBook")</li>
+                    <li li class="sidebar-header">Użytkownicy</li>
+                    <li class="sidebar-item active">@Html.ActionLink("Lista użytkowników", "List", "Users")</li>
+                    <li class="sidebar-item active">@Html.ActionLink("Dodaj", "Add", "Users")</li>
+                    <li class="sidebar-item active">@Html.ActionLink("Dezaktywyj/Aktywuj", "Activation", "Users")</li>
                 </ul>
             </div>
             <div class="col-sm-9 col-md-10 main">

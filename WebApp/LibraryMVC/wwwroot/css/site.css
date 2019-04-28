@@ -4,7 +4,8 @@
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
-    padding: 50px;
+    padding-top: 50px;
+    padding-left: 0px;
 }
 
 
@@ -29,9 +30,43 @@ body {
  * Sidebar
  */
 
+.aneta-theme .navbar.navbar-inverse.navbar-fixed-top {
+    background-color: white;
+    border-bottom: 2px solid dimgray;
+}
+
+.aneta-theme .navbar-collapse.collapse {
+
+    text-align: center;
+}
+
+.aneta-theme .container ul {
+    display: inline-block;
+    float: none;
+    color: dimgray;
+}
+
+.aneta-theme .sidebar {
+    width: 300px;
+}
+
+.aneta-theme .navbar-brand {
+    width: 300px;
+    height: 50px;
+}
+
 /* Hide for mobile, show later */
 .sidebar {
     display: none;
+}
+
+.aneta-theme .col-sm-3.col-md-2.sidebar {
+    height: 100%;
+}
+
+.aneta-theme .col-sm-3.col-md-2.sidebar .nav.nav-sidebar .sidebar-header {
+    height: 50px;
+    color: red;
 }
 
 @media (min-width: 768px) {
@@ -50,9 +85,9 @@ body {
     }
 }
 
-/* Sidebar navigation */
+/* Sidebar navigation 
 .nav-sidebar {
-    margin-right: -21px; /* 20px padding + 1px border */
+    margin-right: -21px; /* 20px padding + 1px border 
     margin-bottom: 20px;
     margin-left: -20px;
 }
@@ -89,10 +124,6 @@ body {
     margin-top: 0;
 }
 
-.dupa {
-    text-align: right;
-    color: green;
-}
 
 .nav-sidebar-heading {
     color: hotpink;
