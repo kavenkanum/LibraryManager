@@ -20,8 +20,8 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>Imię</th>
-            <th>Nazwisko</th>
+            <th>@Html.ActionLink("Imię", "SelectUser", new { sortBy = ViewBag.FirstNameSortParm })</th>
+            <th>@Html.ActionLink("Nazwisko", "SelectUser", new { sortBy = ViewBag.LastNameSortParm })</th>
             <th>Status</th>
             <th></th>
         </tr>
@@ -35,14 +35,8 @@
                 <td>@user.FirstName</td>
                 <td>@user.LastName</td>
                 <td>
-                    @if (user.IsActive)
-                    {
-                        <span>Aktywny</span>
-                    }
-                    @if (!user.IsActive)
-                    {
-                        <span>Nieaktywny</span>
-                    }
+                    @if (user.IsActive) {<span>Aktywny</span>}
+                    @if (!user.IsActive) {<span>Nieaktywny</span>}
                 </td>
                 <td>
                     @if (user.IsActive)
