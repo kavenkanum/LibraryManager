@@ -23,17 +23,37 @@ namespace LibraryMVC.Controllers
             _borrowedBookRepository = borrowedBookRepository;
         }
 
-        public IActionResult SelectUser(string searchString)
+        public IActionResult SelectUser(string searchString, string sortBy)
         {
             var users = _usersRepository.GetUsers();
             
             if (!String.IsNullOrEmpty(searchString))
             {
-                users = users.Where(u => u.FirstName.ToLower().Contains(searchString.ToLower()) || u.LastName.ToLower().Contains(searchString.ToLower()));
+                users = users.Where(u => (u.FirstName.ToLower().Contains(searchString.ToLower()) || u.LastName.ToLower().Contains(searchString.ToLower())) || $"{u.FirstName.ToLower()} {u.LastName.ToLower()}".Contains(searchString.ToLower()));
             }
 
-            return View(users);
+            ViewBag.LastNameSortParm = string.IsNullOrEmpty(sortBy) ? "LastNameDesc" : "";
+            ViewBag.FirstNameSortParm = sortBy == "FirstName" ? "FirstNameDesc" : "FirstName";
+
+            switch (sortBy)
+            {
+                case "FirstNameDesc":
+                    users = users.OrderByDescending(u => u.FirstName);
+                    break;
+                case "FirstName":
+                    users = users.OrderBy(u => u.FirstName);
+                    break;
+                case "LastNameDesc":
+                    users = users.OrderByDescending(u => u.LastName);
+                    break;
+                default:
+                    users = users.OrderBy(u => u.LastName);
+                    break;
+            }
+            return View(users.ToList());
         }
+
+        
 
         public IActionResult SelectBorrowingUser()
         {
@@ -73,9 +93,19 @@ namespace LibraryMVC.Controllers
 
         public IActionResult ReturnBook(int borrowedBookId)
         {
+            var bookId = _borrowedBookRepository.Find(borrowedBookId);
+            var book = _bookRepository.Find(bookId);
+
+            return View(book);
+        }
+
+        [HttpPost, ActionName("ReturnBook")]
+        [ValidateAntiForgeryToken]
+        public IActionResult ReturnBookConfirmed(int borrowedBookId)
+        {
             _borrowedBookRepository.Return(borrowedBookId);
 
-            return View();
+            return RedirectToAction("SelectBorrowingUser", "BorrowBook");
         }
 
         public IActionResult BorrowingHistory()
