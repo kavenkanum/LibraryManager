@@ -12,8 +12,9 @@ namespace LibraryMVC.Domain.Repositories
         void Borrow(int bookId, int toUserId);
         void Return(int borrowedBookId);
         void DecreaseNumberOfAvailableBooks(int bookId);
+        int Find(int bookId);
         IEnumerable<Book> SelectBorrowedBooksByUser(int userId);
-        //IEnumerable<User> GetBorrowingUsers();
+
         IEnumerable<UserWithBorrowedBooks> GetUsersWithBorrowedBooks();
         IEnumerable<UserWithBorrowedBooks> ListOfAllBorrowedBooks();
 
@@ -97,6 +98,11 @@ namespace LibraryMVC.Domain.Repositories
             {
                 borrowedBook.NumberAvailableBooks--;
             }
+        }
+
+        public int Find(int borrowedBookId)
+        {
+            return _libraryDbContext.BorrowedBooks.Where(b => b.ID == borrowedBookId).Select(b => b.BookId).FirstOrDefault();
         }
 
         //public IEnumerable<User> GetBorrowingUsers()

@@ -1,8 +1,22 @@
-﻿
+﻿@model LibraryMVC.Domain.Models.Book
 @{
     ViewData["Title"] = "Zwróć książkę";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ReturnBook</h2>
+<h2>Tytuł "@Model.Name"
+    Autor: @Model.Author</h2>
+<h3>Czy na pewno chcesz zwrócić powyższą książkę?</h3>
+
+<div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Zwróć" class="btn btn-default" />
+            <a href="@Url.Action("SelectBorrowingUser", "BorrowBook")" class="btn btn-default">Anuluj</a>
+        </div>
+    }
+</div>
 
