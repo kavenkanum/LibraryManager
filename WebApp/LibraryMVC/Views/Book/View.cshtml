@@ -1,4 +1,5 @@
 ﻿@model LibraryMVC.Domain.Models.Book
+@using LibraryMVC
 @{
     ViewData["Title"] = @Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,9 +9,13 @@
 <p>
     @Html.DisplayFor(model => model.Description)
 </p>
+<img src="@Html.ToBase64Image(Model.Image)" />
 
 <a href="@Url.Action("List", "Books")" class="btn btn-warning"><span class="glyphicon glyphicon glyphicon-hand-left" aria-hidden="true"></span> Powrót</a>
-<a href="@Url.Action("AddDescription", "Book", new { Model.ID })" class="button">Dodaj opis</a>
-<a href="@Url.Action("AddImage", "Book")" class="button">Dodaj obraz</a>
+@if (Model.Description == null)
+{<a href="@Url.Action("AddDescription", "Book", new { Model.ID })" class="button">Dodaj opis</a> }
+else
+{ <a href="@Url.Action("AddDescription", "Book", new { Model.ID })" class="button">Edytuj opis</a>}
+<a href="@Url.Action("AddImage", "Book", new { Model.ID })" class="button">Dodaj obraz</a>
 
 
