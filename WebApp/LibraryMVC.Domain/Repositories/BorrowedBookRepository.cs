@@ -14,7 +14,7 @@ namespace LibraryMVC.Domain.Repositories
         void DecreaseNumberOfAvailableBooks(int bookId);
         int Find(int bookId);
         IEnumerable<Book> SelectBorrowedBooksByUser(int userId);
-
+        IEnumerable<Book> SelectNotReturnedBorrowedBooksByUser(int userId);
         IEnumerable<UserWithBorrowedBooks> GetUsersWithBorrowedBooks();
         IEnumerable<UserWithBorrowedBooks> ListOfAllBorrowedBooks();
 
@@ -113,6 +113,13 @@ namespace LibraryMVC.Domain.Repositories
 
         //    return borrowingUsers;
         //}
+
+        public IEnumerable<Book> SelectNotReturnedBorrowedBooksByUser(int userId)
+        {
+            return _libraryDbContext.BorrowedBooks
+                .Where(bb => bb.UserId == userId && bb.DateOfReturn == null)
+                .Select(bb => bb.Book);
+        }
 
         public IEnumerable<Book> SelectBorrowedBooksByUser(int userId)
         {

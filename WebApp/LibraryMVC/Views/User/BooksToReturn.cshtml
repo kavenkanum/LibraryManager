@@ -1,0 +1,14 @@
+﻿@model LibraryMVC.Controllers.UserViewModel
+@{
+    ViewData["Title"] = "Książki do zwrotu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p>Użytkownik nie zwrócił wszystkich wypożyczonych książek, dlatego jego konto nie może być dezaktywowane.</p><p>Prosimy o zwrot poniższych pozycji:</p>
+
+<p>
+    @foreach (var book in Model.BorrowedBooks)
+    {
+        @book.Name<br />
+    }
+</p>

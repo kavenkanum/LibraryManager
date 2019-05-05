@@ -1,11 +1,44 @@
-﻿
+﻿@model IEnumerable<LibraryMVC.Domain.Models.User>
 @{
     ViewData["Title"] = "Activation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
 
-    <p class="dupa">Próba styli</p>
+    <h2>Wybierz z listy użytkownika, którego status chcesz zmienić.</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{var index = 1; }
+            @foreach(var user in Model)
+            {
+            <tr>
+                <td>@index++</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                @if (user.IsActive)
+                {
+                    <td>@Html.ActionLink("Dezaktywuj", "Deactivation", "User")</td>
+                }
+                @if (!user.IsActive)
+                {
+                    <td>@Html.ActionLink("Aktywuj", "Activation", "User")</td>
+                }
+
+            </tr>
+            }
+        </tbody>
+    </table>
+
 
 
 

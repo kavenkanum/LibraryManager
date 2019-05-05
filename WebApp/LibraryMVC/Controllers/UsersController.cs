@@ -19,7 +19,8 @@ namespace LibraryMVC.Controllers
 
         public IActionResult Activation()
         {
-            return View();
+            var users = usersRepository.GetUsers();
+            return View(users);
         }
 
         public IActionResult List()

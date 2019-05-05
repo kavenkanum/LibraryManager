@@ -36,9 +36,12 @@
                         }
                 </td>
                 <td>
-                    <a href="@Url.Action("View", "User", new { user.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Podgląd</a>
-                    <a href="@Url.Action("Edit", "User", new { user.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Edytuj</a>
-                    <a href="@Url.Action("Delete", "User", new { user.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Usuń</a>
+                    <a href="@Url.Action("View", "User", new { id = user.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>Podgląd</a>
+                    <a href="@Url.Action("Edit", "User", new { id = user.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>Edytuj</a>
+                    @if (user.IsActive)
+                    {@Html.ActionLink("Dezaktywuj", "Deactivation", "User", new { userId = user.ID })}
+                    @if (!user.IsActive)
+                    {@Html.ActionLink("Aktywuj", "Activation", "User", new { userId = user.ID })}    
                 </td>
             </tr>
         }

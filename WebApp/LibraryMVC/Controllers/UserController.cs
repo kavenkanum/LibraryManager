@@ -19,20 +19,45 @@ namespace LibraryMVC.Controllers
             _borrowedBookRepository = borrowedBookRepository;
         }
 
-        public IActionResult Delete(int id)
+        public IActionResult Activation(int id)
         {
             var user = _usersRepository.Find(id);
+            if (ModelState.IsValid)
+            {
+                _usersRepository.Activation(user);
+                _usersRepository.Commit();
+            }
             return View(user);
         }
 
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteCondfirmed(User user)
+        public IActionResult Deactivation(int userId)
         {
-            _usersRepository.Delete(user);
-            _usersRepository.Commit();
-            return RedirectToAction("List", "Users");
+            var user = _usersRepository.Find(userId);
+            var borrowedBooks = _borrowedBookRepository.SelectNotReturnedBorrowedBooksByUser(userId);
 
+            //Check if the user returned all of its borrowed books. 
+            if (borrowedBooks.Any())
+            {
+                return RedirectToAction("BooksToReturn", new { userId });
+            }
+
+            if (ModelState.IsValid)
+            {
+                _usersRepository.Deactivation(user);
+                _usersRepository.Commit();
+            }
+            return View(user);
+        }
+
+        public IActionResult BooksToReturn(int userId)
+        {
+            var user = new UserViewModel
+            {
+                User = _usersRepository.Find(userId),
+                BorrowedBooks = _borrowedBookRepository.SelectNotReturnedBorrowedBooksByUser(userId)
+            };
+
+            return View(user);
         }
 
         public IActionResult Edit(int id)
@@ -56,7 +81,6 @@ namespace LibraryMVC.Controllers
 
         public IActionResult View(int id)
         {
-
             var model = new UserViewModel
             {
                 User = _usersRepository.Find(id),
