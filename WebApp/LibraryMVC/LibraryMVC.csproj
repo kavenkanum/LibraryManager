@@ -13,4 +13,9 @@
   <ItemGroup>
     <ProjectReference Include="..\LibraryMVC.Domain\LibraryMVC.Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="Views\User\Deactivation.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
 </Project>

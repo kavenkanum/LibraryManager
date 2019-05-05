@@ -41,11 +41,6 @@ namespace LibraryMVC.Controllers
             return View(books);
         }
 
-        public IActionResult BorrowBook()
-        {
-            var users = userRepository.GetUsers();
-            return View(users);
-        }
 
 
 
