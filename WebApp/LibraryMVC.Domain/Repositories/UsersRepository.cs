@@ -10,7 +10,6 @@ namespace LibraryMVC.Domain.Repositories
     {
         void Add(User newPerson);
         void Commit();
-        void Delete(User user);
         void Deactivation(User user);
         void Activation(User user);
         IEnumerable<User> GetUsers();
@@ -38,22 +37,12 @@ namespace LibraryMVC.Domain.Repositories
             _libraryDbContext.SaveChanges();
         }
 
-        public void Delete(User user)
-        {
-            if (!user.IsActive)
-            {
-                _libraryDbContext.Remove(user);
-            }
-            System.Console.WriteLine("Zmień proszę status na NIEAKTYWNY");
-        }
-
         public void Deactivation(User user)
         {
             var userToDeactivate = _libraryDbContext.Users.SingleOrDefault(u => u.ID == user.ID);
             if (userToDeactivate  != null && userToDeactivate.IsActive)
             {
                 userToDeactivate.IsActive = false;
-                _libraryDbContext.SaveChanges();
             }
         }
 
@@ -63,7 +52,6 @@ namespace LibraryMVC.Domain.Repositories
             if (userToActivate != null && !userToActivate.IsActive)
             {
                 userToActivate.IsActive = true;
-                _libraryDbContext.SaveChanges();
             }
         }
 
