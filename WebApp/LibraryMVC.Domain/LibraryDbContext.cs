@@ -9,7 +9,7 @@ namespace LibraryMVC.Domain
             : base(options){ }
         
         public DbSet<Book> Books { get; set; }
-
+        public DbSet<Account> Accounts { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<BorrowedBook> BorrowedBooks { get; set; }
 
@@ -27,6 +27,9 @@ namespace LibraryMVC.Domain
                 .HasOne(bb => bb.User)
                 .WithMany(u => u.BorrowedBooks)
                 .HasForeignKey(bb => bb.UserId);
+
+            modelBuilder.Entity<Account>()
+                .HasKey(a => a.ID);
         }
 
         
