@@ -1,4 +1,4 @@
-﻿@model LibraryMVC.Domain.Models.User
+﻿@model LibraryMVC.Domain.Models.Account
 @{
     ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,17 +14,22 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.NickName, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(m => m.NickName, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.NickName, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.NickName, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.Password, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(m => m.Password, new { @class = "form-control" })
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmPassword, htmlAttributes: new { @class = "control-label" })
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
                 @Html.LabelFor(m => m.Email, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(m => m.Email, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
