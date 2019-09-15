@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using LibraryMVC.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using LibraryMVC.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryMVC.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly IBookRepository _bookRepository;
