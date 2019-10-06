@@ -1,6 +1,4 @@
-using System;
-
-namespace LibraryMVC.Models
+namespace LibraryMVC.Entities
 {
     public class ErrorViewModel
     {

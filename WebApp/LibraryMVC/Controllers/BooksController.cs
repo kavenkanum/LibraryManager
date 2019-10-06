@@ -1,4 +1,4 @@
-﻿using LibraryMVC.Domain.Models;
+﻿using LibraryMVC.Domain.Entities;
 using LibraryMVC.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 

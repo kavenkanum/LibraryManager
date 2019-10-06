@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace LibraryMVC.Domain.Models
+namespace LibraryMVC.Domain.Entities
 {
     public class User
     {

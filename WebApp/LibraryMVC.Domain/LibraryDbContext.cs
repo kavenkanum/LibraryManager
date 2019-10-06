@@ -1,11 +1,10 @@
-﻿using LibraryMVC.Domain.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using LibraryMVC.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryMVC.Domain
 {
-    public class LibraryDbContext : IdentityDbContext
+    public class LibraryDbContext : DbContext
     {
         public LibraryDbContext(DbContextOptions<LibraryDbContext> options)
             : base(options){ }
@@ -14,6 +13,7 @@ namespace LibraryMVC.Domain
         public DbSet<Account> Accounts { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<BorrowedBook> BorrowedBooks { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,12 +32,7 @@ namespace LibraryMVC.Domain
                 .HasForeignKey(bb => bb.UserId);
 
             modelBuilder.Entity<User>().ToTable("Users");
-            modelBuilder.Entity<IdentityRole<string>>().ToTable("Roles");
-            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
-            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
-            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
-            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
-            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
+
         }
 
         

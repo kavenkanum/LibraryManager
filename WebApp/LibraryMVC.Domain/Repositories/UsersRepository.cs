@@ -1,5 +1,4 @@
-﻿using LibraryMVC.Domain.Models;
-using Microsoft.EntityFrameworkCore.Internal;
+﻿using LibraryMVC.Domain.Entities;
 using System.Collections.Generic;
 using System.Linq;
 

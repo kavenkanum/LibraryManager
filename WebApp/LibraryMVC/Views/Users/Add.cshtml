@@ -1,4 +1,4 @@
-﻿@model LibraryMVC.Domain.Models.User
+﻿@model LibraryMVC.Domain.Entities.User
 @{
     ViewData["Title"] = "Add";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,11 +11,11 @@
         <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="NickName" class="control-label"></label>
                 <input asp-for="NickName" class="form-control" />
                 <span asp-validation-for="NickName" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />

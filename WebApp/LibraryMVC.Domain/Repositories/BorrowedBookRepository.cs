@@ -1,9 +1,8 @@
-﻿using LibraryMVC.Domain.Models;
+﻿using LibraryMVC.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace LibraryMVC.Domain.Repositories
 {

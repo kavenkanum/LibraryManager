@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using LibraryMVC.Domain.Models;
+using LibraryMVC.Domain.Entities;
 
 namespace LibraryMVC.Domain.Repositories
 {
@@ -70,7 +70,6 @@ namespace LibraryMVC.Domain.Repositories
             return _libraryDbContext.Books.SingleOrDefault(p => p.Name == selectedBook.Name && p.Author == selectedBook.Author);
         }
 
-        
 
         public Book Find(int ID)
         {

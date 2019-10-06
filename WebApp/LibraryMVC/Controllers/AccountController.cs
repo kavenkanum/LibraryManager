@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Security.Claims;
-using System.Text.Encodings.Web;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using LibraryMVC.Domain.Models;
+using LibraryMVC.Domain.Entities;
 using LibraryMVC.Domain.Repositories;
 
 namespace LibraryMVC.Controllers
@@ -22,16 +12,15 @@ namespace LibraryMVC.Controllers
         private readonly IAccountRepository _accountRepository;
         private readonly SignInManager<Account> _signInManager;
         private readonly UserManager<Account> _userManager;
-        private readonly IEmailSender _emailSender;
-        public AccountController(IAccountRepository accountRepository, UserManager<Account> userManager, SignInManager<Account> signInManager, IEmailSender emailSender)
+        public AccountController(IAccountRepository accountRepository, UserManager<Account> userManager, SignInManager<Account> signInManager)
         {
             _accountRepository = accountRepository;
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailSender = emailSender;
+            //_emailSender = emailSender;
         }
-               
-        
+
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
@@ -43,19 +32,20 @@ namespace LibraryMVC.Controllers
         public async Task<IActionResult> Register(Account account, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+
             if (ModelState.IsValid)
             {
-                var encryptedPassword = _accountRepository.EncryptPassword(account.Password);
-                var user = new Account { UserName = account.NickName, Email = account.Email };
-                var result = await _userManager.CreateAsync(user, encryptedPassword);
-                //_accountRepository.Add(account); <- returns void, to use my method I should change it (T/F);
+                //var encryptedPassword = _accountRepository.EncryptPassword(account.Password);
+                var user = new Account { UserName = account.UserName, Email = account.Email , PasswordHash = account.PasswordHash};
+                var result = await _userManager.CreateAsync(user);
+
                 if (result.Succeeded)
                 {
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //var callBackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme); <- doesn't work;
 
-                    var callBackUrl = Url.Page("/Account/ConrifmEmail", pageHandler: null, values: new { user.Id, code }, protocol: Request.Scheme);
-                    await _emailSender.SendEmailAsync(user.Email, "Please confirm your registration", $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callBackUrl)}'>clicking here</a>.");
+                    //var callBackUrl = Url.Page("/Account/ConfirmEmail", pageHandler: null, values: new { user.ID, code }, protocol: Request.Scheme);
+                    //await _emailSender.SendEmailAsync(user.Email, "Please confirm your registration", $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callBackUrl)}'>clicking here</a>.");
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     //return RedirectToLocal(returnUrl); <- Redirect to Local doesn't work, find out why;
                     return RedirectToAction("SuccessfulRegister");
@@ -67,6 +57,7 @@ namespace LibraryMVC.Controllers
             
         }
 
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
@@ -84,7 +75,10 @@ namespace LibraryMVC.Controllers
 
         //    return RedirectToAction("UnsuccessfulLogin");
         //}
-        
+        public IActionResult SuccessfulRegister()
+        {
+            return View();
+        }
     }
 
     

@@ -21,7 +21,7 @@ namespace LibraryMVC.Migrations
                 .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("LibraryMVC.Domain.Models.Book", b =>
+            modelBuilder.Entity("LibraryMVC.Domain.Entities.Book", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
@@ -37,7 +37,7 @@ namespace LibraryMVC.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("LibraryMVC.Domain.Models.User", b =>
+            modelBuilder.Entity("LibraryMVC.Domain.Entities.User", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
@@ -57,9 +57,9 @@ namespace LibraryMVC.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("LibraryMVC.Domain.Models.User", b =>
+            modelBuilder.Entity("LibraryMVC.Domain.Entities.User", b =>
                 {
-                    b.HasOne("LibraryMVC.Domain.Models.Book", "BorrowedBooks")
+                    b.HasOne("LibraryMVC.Domain.Entities.Book", "BorrowedBooks")
                         .WithMany()
                         .HasForeignKey("BorrowedBooksID");
                 });

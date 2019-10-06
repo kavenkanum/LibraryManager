@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using LibraryMVC.Domain.Models;
+using LibraryMVC.Domain.Entities;
 using LibraryMVC.Domain.Repositories;
 
 

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LibraryMVC.Domain;
+﻿using LibraryMVC.Domain;
+using LibraryMVC.Domain.Entities;
+using LibraryMVC.Domain.Identities;
 using LibraryMVC.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -53,8 +51,11 @@ namespace LibraryMVC
             services.AddTransient<IUsersRepository, UsersRepository>();
             services.AddTransient<IBorrowedBookRepository, BorrowedBookRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
-            services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>()
-                    .AddEntityFrameworkStores<LibraryDbContext>();
+
+            services.AddIdentity<Account, UserRole>()
+                .AddUserStore<UserStore>()
+                .AddRoleStore<RoleStore>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

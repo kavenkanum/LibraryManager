@@ -21,7 +21,7 @@ namespace LibraryMVC.Migrations
                 .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("LibraryMVC.Domain.Models.Book", b =>
+            modelBuilder.Entity("LibraryMVC.Domain.Entities.Book", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
@@ -41,7 +41,7 @@ namespace LibraryMVC.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("LibraryMVC.Domain.Models.BorrowedBook", b =>
+            modelBuilder.Entity("LibraryMVC.Domain.Entities.BorrowedBook", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
@@ -63,7 +63,7 @@ namespace LibraryMVC.Migrations
                     b.ToTable("BorrowedBooks");
                 });
 
-            modelBuilder.Entity("LibraryMVC.Domain.Models.User", b =>
+            modelBuilder.Entity("LibraryMVC.Domain.Entities.User", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
@@ -81,14 +81,14 @@ namespace LibraryMVC.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("LibraryMVC.Domain.Models.BorrowedBook", b =>
+            modelBuilder.Entity("LibraryMVC.Domain.Entities.BorrowedBook", b =>
                 {
-                    b.HasOne("LibraryMVC.Domain.Models.Book", "Book")
+                    b.HasOne("LibraryMVC.Domain.Entities.Book", "Book")
                         .WithMany("BorrowingUsers")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("LibraryMVC.Domain.Models.User", "User")
+                    b.HasOne("LibraryMVC.Domain.Entities.User", "User")
                         .WithMany("BorrowedBooks")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
