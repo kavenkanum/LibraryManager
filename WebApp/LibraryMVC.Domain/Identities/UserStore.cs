@@ -8,18 +8,15 @@ using System.Threading.Tasks;
 
 namespace LibraryMVC.Domain.Identities
 {
-    public class UserStore : IUserStore<Account>
+    public class UserStore : IUserStore<Account>, IUserPasswordStore<Account>
     {
-        //private readonly SqlConnection _connection;
-        //public UserStore(SqlConnection connection)
-        //{
-        //    _connection = connection;
-        //}
+        private readonly IPasswordHasher<Account> _passwordHasher;
 
         private readonly LibraryDbContext _libraryDbContext;
-        public UserStore(LibraryDbContext libraryDbContext)
+        public UserStore(LibraryDbContext libraryDbContext, IPasswordHasher<Account> passwordHasher)
         {
             _libraryDbContext = libraryDbContext;
+            _passwordHasher = passwordHasher;
         }
         public async Task<IdentityResult> CreateAsync(Account user, CancellationToken cancellationToken)
         {
@@ -30,6 +27,7 @@ namespace LibraryMVC.Domain.Identities
             }
             if (user.Email != null && user.PasswordHash != null)
             {
+                user.PasswordHash = _passwordHasher.HashPassword(user, user.PasswordHash);
                 await _libraryDbContext.AddAsync(user);
                 await _libraryDbContext.SaveChangesAsync();
                 return IdentityResult.Success;
@@ -82,6 +80,12 @@ namespace LibraryMVC.Domain.Identities
             return Task.FromResult(user.NormalizedUserName);
         }
 
+        public Task<string> GetPasswordHashAsync(Account user, CancellationToken cancellationToken)
+        {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            return Task.FromResult(user.PasswordHash);
+        }
+
         public Task<string> GetUserIdAsync(Account user, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -102,12 +106,26 @@ namespace LibraryMVC.Domain.Identities
             return Task.FromResult(user.UserName);
         }
 
+        public Task<bool> HasPasswordAsync(Account user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(!string.IsNullOrEmpty(user.PasswordHash));
+        }
+
         public Task SetNormalizedUserNameAsync(Account user, string normalizedName, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (user == null) throw new ArgumentNullException(nameof(user));
             user.NormalizedUserName = normalizedName ?? throw new ArgumentNullException(nameof(user));
             return Task.CompletedTask;
+        }
+
+        public Task SetPasswordHashAsync(Account user, string passwordHash, CancellationToken cancellationToken)
+        {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            if (passwordHash == null) throw new ArgumentNullException(nameof(passwordHash));
+
+            user.PasswordHash = passwordHash;
+            return Task.FromResult(0);
         }
 
         public Task SetUserNameAsync(Account user, string userName, CancellationToken cancellationToken)

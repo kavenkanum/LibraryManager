@@ -12,11 +12,15 @@ namespace LibraryMVC.Controllers
         private readonly IAccountRepository _accountRepository;
         private readonly SignInManager<Account> _signInManager;
         private readonly UserManager<Account> _userManager;
-        public AccountController(IAccountRepository accountRepository, UserManager<Account> userManager, SignInManager<Account> signInManager)
+        private readonly IPasswordHasher<Account> _passwordHasher;
+
+
+        public AccountController(IAccountRepository accountRepository, UserManager<Account> userManager, SignInManager<Account> signInManager, IPasswordHasher<Account> passwordHasher)
         {
             _accountRepository = accountRepository;
             _userManager = userManager;
             _signInManager = signInManager;
+            _passwordHasher = passwordHasher;
             //_emailSender = emailSender;
         }
 
@@ -63,22 +67,46 @@ namespace LibraryMVC.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public IActionResult Login(string email, string password)
-        //{
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel user, string returnUrl = null)
+        {
+            returnUrl = returnUrl ?? Url.Content("~/");
+            if (ModelState.IsValid)
+            {
+                Account signedUser = await _userManager.FindByNameAsync(user.UserName);
+                var result = await _signInManager.PasswordSignInAsync(signedUser, user.PasswordHash, isPersistent: true, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    return LocalRedirect(returnUrl);
+                }
+                if (result.RequiresTwoFactor)
+                {
+                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl});
+                }
+                if (result.IsLockedOut)
+                {
+                    return RedirectToPage("./Lockout");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return View();
+                }
+            }
 
-        //    if (_accountRepository.LoginSuccess(email, password) == true)
-        //    {
-        //        //FormsAuthentication.SetAuthCookie(email, false);
-        //        return RedirectToAction("SuccessfulLogin");
-        //    }
-
-        //    return RedirectToAction("UnsuccessfulLogin");
-        //}
+            return RedirectToAction("UnsuccessfulLogin");
+        }
         public IActionResult SuccessfulRegister()
         {
             return View();
         }
+    }
+    public class LoginViewModel
+    {
+        public string PasswordHash { get; set; }
+        public string UserName { get; set; }
     }
 
     
