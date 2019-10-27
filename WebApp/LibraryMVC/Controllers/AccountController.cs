@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using LibraryMVC.Domain.Entities;
 using LibraryMVC.Domain.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace LibraryMVC.Controllers
 {
@@ -13,14 +14,16 @@ namespace LibraryMVC.Controllers
         private readonly SignInManager<Account> _signInManager;
         private readonly UserManager<Account> _userManager;
         private readonly IPasswordHasher<Account> _passwordHasher;
+        private readonly ILogger<Account> _logger;
 
 
-        public AccountController(IAccountRepository accountRepository, UserManager<Account> userManager, SignInManager<Account> signInManager, IPasswordHasher<Account> passwordHasher)
+        public AccountController(IAccountRepository accountRepository, UserManager<Account> userManager, SignInManager<Account> signInManager, IPasswordHasher<Account> passwordHasher, ILogger<Account> logger)
         {
             _accountRepository = accountRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _passwordHasher = passwordHasher;
+            _logger = logger;
             //_emailSender = emailSender;
         }
 
@@ -51,14 +54,12 @@ namespace LibraryMVC.Controllers
                     //var callBackUrl = Url.Page("/Account/ConfirmEmail", pageHandler: null, values: new { user.ID, code }, protocol: Request.Scheme);
                     //await _emailSender.SendEmailAsync(user.Email, "Please confirm your registration", $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callBackUrl)}'>clicking here</a>.");
                     await _signInManager.SignInAsync(user, isPersistent: false);
+                    _logger.LogInformation(1, "User created a new account with a password.");
                     //return RedirectToLocal(returnUrl); <- Redirect to Local doesn't work, find out why;
                     return RedirectToAction("SuccessfulRegister");
                 }
-                
             }
-
-            return View();
-            
+            return View();   
         }
 
         [AllowAnonymous]
@@ -79,6 +80,7 @@ namespace LibraryMVC.Controllers
                 var result = await _signInManager.PasswordSignInAsync(signedUser, user.PasswordHash, isPersistent: true, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    _logger.LogInformation(2, "User logged in.");
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -87,6 +89,7 @@ namespace LibraryMVC.Controllers
                 }
                 if (result.IsLockedOut)
                 {
+                    _logger.LogInformation(3, "User account is locked out.");
                     return RedirectToPage("./Lockout");
                 }
                 else
@@ -95,13 +98,21 @@ namespace LibraryMVC.Controllers
                     return View();
                 }
             }
-
             return RedirectToAction("UnsuccessfulLogin");
         }
         public IActionResult SuccessfulRegister()
         {
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("User logged out.");
+            return RedirectToAction("Index", "Home");
+        }
+
     }
     public class LoginViewModel
     {
