@@ -22,7 +22,7 @@
             @foreach(var user in Model)
             {
             <tr>
-                <td>@index++</td>
+                <td>@(index++)</td>
                 <td>@user.FirstName</td>
                 <td>@user.LastName</td>
                 @if (user.IsActive)
