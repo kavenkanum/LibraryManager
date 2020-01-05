@@ -30,44 +30,13 @@ body {
  * Sidebar
  */
 
-.aneta-theme .navbar.navbar-inverse.navbar-fixed-top {
-    background-color: white;
-    border-bottom: 2px solid dimgray;
-}
-
-.aneta-theme .navbar-collapse.collapse {
-
-    text-align: center;
-}
-
-.aneta-theme .container ul {
-    display: inline-block;
-    float: none;
-    color: dimgray;
-}
-
-.aneta-theme .sidebar {
-    width: 300px;
-}
-
-.aneta-theme .navbar-brand {
-    width: 300px;
-    height: 50px;
-}
 
 /* Hide for mobile, show later */
 .sidebar {
     display: none;
 }
 
-.aneta-theme .col-sm-3.col-md-2.sidebar {
-    height: 100%;
-}
 
-.aneta-theme .col-sm-3.col-md-2.sidebar .nav.nav-sidebar .sidebar-header {
-    height: 50px;
-    color: red;
-}
 
 @media (min-width: 768px) {
     .sidebar {
@@ -124,12 +93,6 @@ body {
     margin-top: 0;
 }
 
-
-.nav-sidebar-heading {
-    color: hotpink;
-    padding-left: 200px;
-    margin-left: 100px;
-}
 
 .button {
     background-color: darkblue;
