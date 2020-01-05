@@ -42,7 +42,6 @@ namespace LibraryMVC.Controllers
 
             if (ModelState.IsValid)
             {
-                //var encryptedPassword = _accountRepository.EncryptPassword(account.Password);
                 var user = new Account { UserName = account.UserName, Email = account.Email , PasswordHash = account.PasswordHash};
                 var result = await _userManager.CreateAsync(user);
 

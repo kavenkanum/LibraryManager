@@ -9,7 +9,7 @@ namespace LibraryMVC.Domain.Repositories
     {
         void Add(Account newAccount);
         void Commit();
-        string EncryptPassword(string password);
+        
         //bool LoginSuccess(string email, string password);
     }
 
@@ -31,15 +31,6 @@ namespace LibraryMVC.Domain.Repositories
             _libraryDbContext.SaveChanges();
         }
 
-        public string EncryptPassword(string password)
-        {
-            MD5 md5 = new MD5CryptoServiceProvider();
-            UTF32Encoding encoder = new UTF32Encoding();
-            var originalBytes = encoder.GetBytes(password);
-            var encodedBytes = md5.ComputeHash(originalBytes);
-            var result = BitConverter.ToString(encodedBytes);
-            return result;
-        }
 
         //public bool LoginSuccess(string email, string password)
         //{

@@ -7,7 +7,7 @@ namespace LibraryMVC.Domain.Repositories
 {
     public interface IUsersRepository
     {
-        void Add(User newPerson);
+        void Add(User newUser);
         void Commit();
         void Deactivation(User user);
         void Activation(User user);
