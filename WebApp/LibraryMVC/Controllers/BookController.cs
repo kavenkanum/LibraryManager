@@ -1,8 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using LibraryMVC.Domain.Commands;
 using LibraryMVC.Domain.Entities;
 using LibraryMVC.Domain.Repositories;
+using LibraryMVC.Utils;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,22 +13,29 @@ namespace LibraryMVC.Controllers
 {
     public class BookController : Controller
     {
-        private readonly IBookRepository bookRepository;
-        public BookController(IBookRepository _bookRepository)
+        private readonly IBookRepository _bookRepository;
+        private readonly IImageReader _imageReader;
+        private readonly IMediator _mediator;
+
+        public BookController(IBookRepository bookRepository, IImageReader imageReader, IMediator mediator)
         {
-            bookRepository = _bookRepository;
+            this._bookRepository = bookRepository;
+            _imageReader = imageReader;
+            _mediator = mediator;
         }
 
         public IActionResult View(int id)
         {
-            var book = bookRepository.Find(id);
+            //TODO: If book is null => NotFound()
+            var book = _bookRepository.Find(id);
             return View(book);
         }
 
         public IActionResult Delete(int id)
         {
-            Book book = new Book();
-            book = bookRepository.Find(id);
+            //TODO: What if someone has borrowed this book?
+            //TODO: If book is null => NotFound()
+            var book = _bookRepository.Find(id);
             return View(book);
         }
 
@@ -33,15 +43,18 @@ namespace LibraryMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Book book = bookRepository.Find(id);
-            bookRepository.Delete(book);
-            bookRepository.Commit();
+            //TODO: Delete(int id)
+            //TODO: SaveChanges should be executed inside repository, not in controller
+            Book book = _bookRepository.Find(id);
+            _bookRepository.Delete(book);
+            _bookRepository.Commit();
             return RedirectToAction("List", "Books");
         }
 
         public IActionResult Edit(int id)
         {
-            Book book = bookRepository.Find(id);
+            //TODO: If book is null => NotFound()
+            Book book = _bookRepository.Find(id);
             return View(book);
         }
 
@@ -49,10 +62,11 @@ namespace LibraryMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Book book)
         {
+            //TODO: SaveChanges should be executed inside repository, not in controller
             if (ModelState.IsValid)
             {
-                bookRepository.Edit(book);
-                bookRepository.Commit();
+                _bookRepository.Edit(book);
+                _bookRepository.Commit();
                 return RedirectToAction("List", "Books");
             }
             return View(book);
@@ -60,31 +74,24 @@ namespace LibraryMVC.Controllers
 
         public IActionResult AddDescription(int id)
         {
-            Book book = bookRepository.Find(id);
+            Book book = _bookRepository.Find(id);
             return View(book);
         }
 
         [HttpPost]
         public IActionResult AddDescription(AddDescriptionModel model)
         {
-
-            bookRepository.AddDescritpion(model.Id, model.Description);
+            _bookRepository.AddDescritpion(model.Id, model.Description);
             return RedirectToAction("View", new { model.Id });
         }
 
+        //TODO: Refactor
         [HttpPost]
         public async Task<IActionResult> AddImage(AddImageModel model)
         {
-            var book = bookRepository.Find(model.Id);
-            using (var memoryStream = new MemoryStream())
-            {
-                await model.Image.CopyToAsync(memoryStream);
-                byte[] imageArray = memoryStream.ToArray();
-                book.Image = Convert.ToBase64String(imageArray);
-            }
-
-            bookRepository.Commit();
-            return RedirectToAction("View", new { model.Id });
+            var imageInBase64 = await _imageReader.ConvertToBase64Async(model.Image);
+            var result  = await _mediator.Send(new AddImageCommand(model.Id, imageInBase64));
+            return result ? RedirectToAction("View", new {model.Id}) : RedirectToAction("Error");
         }
 
         [HttpGet]

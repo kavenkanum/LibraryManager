@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LibraryMVC.Domain.Entities;
+using LibraryMVC.Domain.Queries;
 using LibraryMVC.Domain.Repositories;
+using MediatR;
 
 
 namespace LibraryMVC.Controllers
@@ -14,42 +17,25 @@ namespace LibraryMVC.Controllers
         private readonly IUsersRepository _usersRepository;
         private readonly IBookRepository _bookRepository;
         private readonly IBorrowedBookRepository _borrowedBookRepository;
+        private readonly IMediator _mediator;
 
-        public BorrowBookController(IUsersRepository usersRepository, IBookRepository bookRepository, IBorrowedBookRepository borrowedBookRepository)
+        public BorrowBookController(IUsersRepository usersRepository, IBookRepository bookRepository, IBorrowedBookRepository borrowedBookRepository, IMediator mediator)
         {
             _usersRepository = usersRepository;
             _bookRepository = bookRepository;
             _borrowedBookRepository = borrowedBookRepository;
+            _mediator = mediator;
         }
 
-        public IActionResult SelectUser(string searchString, string sortBy)
+        //TODO: Refactor
+        public async Task<IActionResult> SelectUser(string searchString, string sortBy)
         {
-            var users = _usersRepository.GetUsers();
-            
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                users = users.Where(u => (u.FirstName.ToLower().Contains(searchString.ToLower()) || u.LastName.ToLower().Contains(searchString.ToLower())) || $"{u.FirstName.ToLower()} {u.LastName.ToLower()}".Contains(searchString.ToLower()));
-            }
-
             ViewBag.LastNameSortParm = string.IsNullOrEmpty(sortBy) ? "LastNameDesc" : "";
             ViewBag.FirstNameSortParm = sortBy == "FirstName" ? "FirstNameDesc" : "FirstName";
 
-            switch (sortBy)
-            {
-                case "FirstNameDesc":
-                    users = users.OrderByDescending(u => u.FirstName);
-                    break;
-                case "FirstName":
-                    users = users.OrderBy(u => u.FirstName);
-                    break;
-                case "LastNameDesc":
-                    users = users.OrderByDescending(u => u.LastName);
-                    break;
-                default:
-                    users = users.OrderBy(u => u.LastName);
-                    break;
-            }
-            return View(users.ToList());
+            var users = await _mediator.Send(new GetUsersQuery(searchString, sortBy));
+
+            return View(users);
         }
 
         

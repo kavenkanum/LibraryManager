@@ -61,6 +61,8 @@ namespace LibraryMVC.Domain.Repositories
         public IEnumerable<UserWithBorrowedBooks> ListOfAllBorrowedBooks()
         {
             return _libraryDbContext.Users
+                .Include(u => u.BorrowedBooks)
+                .ThenInclude(bb => bb.Book)
                 .Include($"{nameof(User.BorrowedBooks)}.{nameof(BorrowedBook.Book)}")
                 .Select(u =>
                 new UserWithBorrowedBooks

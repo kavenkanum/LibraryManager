@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LibraryMVC.Domain.Entities.User>
+﻿@model IEnumerable<LibraryMVC.Domain.Queries.GetUsersQueryRow>
 @{
     ViewData["Title"] = "SelectUser";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -41,11 +41,11 @@
                 <td>
                     @if (user.IsActive)
                     {
-                        <a href="@Url.Action("SelectBook", "BorrowBook", new { forUserId = user.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Wybierz</a>
+                        <a href="@Url.Action("SelectBook", "BorrowBook", new { forUserId = user.UserId })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Wybierz</a>
                     }
                     @if (!user.IsActive)
                     {
-                        <a href="@Url.Action("Edit", "User", new { user.ID })" class="btn btn-primary">Aktywuj</a>
+                        <a href="@Url.Action("Edit", "User", new { Id = user.UserId })" class="btn btn-primary">Aktywuj</a>
                     }
 
                 </td>

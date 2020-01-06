@@ -71,9 +71,9 @@ namespace LibraryMVC.Domain.Repositories
         }
 
 
-        public Book Find(int ID)
+        public Book Find(int id)
         {
-            Book book = _libraryDbContext.Books.Find(ID);
+            Book book = _libraryDbContext.Books.Find(id);
             return book;
         }
 
