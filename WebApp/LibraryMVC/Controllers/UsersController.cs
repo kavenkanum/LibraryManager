@@ -29,7 +29,6 @@ namespace LibraryMVC.Controllers
         public IActionResult Add(User user)
         {
             usersRepository.Add(user);
-            usersRepository.Commit();
             return RedirectToAction("List");
         }
 

@@ -8,13 +8,12 @@ namespace LibraryMVC.Domain.Repositories
     {
         IEnumerable<Book> GetBooks();
         void Add(Book newBook);
-        void Commit();
         Book SelectBook(Book selectedBook);
-        void Delete(Book book);
+        bool Delete(int id);
         Book Find(int ID);
         void Edit(Book book);
         IEnumerable<Book> GetAvailableBooks();
-        void AddDescritpion(int id, string newDescription);
+        void Commit();
 
     }
 
@@ -43,21 +42,20 @@ namespace LibraryMVC.Domain.Repositories
         public void Add(Book newBook)
         {
             _libraryDbContext.Books.Add(newBook);
-        }
-
-        public void Commit()
-        {
+            newBook.NumberAvailableBooks = newBook.NumberAllBooks;
             _libraryDbContext.SaveChanges();
         }
 
-        public void Delete(Book book)
+        public bool Delete(int id)
         {
-            _libraryDbContext.Books.Remove(book);
-        }
-
-        public int CountBooks()
-        {
-            return _libraryDbContext.Books.Count();
+            var book = _libraryDbContext.Books.Find(id);
+            if (book != null && book.NumberAllBooks == book.NumberAvailableBooks)
+            {
+                _libraryDbContext.Books.Remove(book);
+                _libraryDbContext.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
         public IEnumerable<Book> GetBooks()
@@ -80,6 +78,7 @@ namespace LibraryMVC.Domain.Repositories
         public void Edit(Book book)
         {
             _libraryDbContext.Entry(book).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _libraryDbContext.SaveChanges();
         }
 
         public IEnumerable<Book> GetAvailableBooks()
@@ -87,14 +86,9 @@ namespace LibraryMVC.Domain.Repositories
             return _libraryDbContext.Books.Where(b => b.NumberAvailableBooks>0).ToList();
         }
 
-        public void AddDescritpion(int id, string newDescription)
+        public void Commit()
         {
-            var book = Find(id);
-            book.Description = newDescription;
             _libraryDbContext.SaveChanges();
         }
-
-
-
     }
 }

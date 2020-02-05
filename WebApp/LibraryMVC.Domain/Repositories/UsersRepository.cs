@@ -8,7 +8,6 @@ namespace LibraryMVC.Domain.Repositories
     public interface IUsersRepository
     {
         void Add(User newUser);
-        void Commit();
         void Deactivation(User user);
         void Activation(User user);
         IEnumerable<User> GetUsers();
@@ -29,10 +28,6 @@ namespace LibraryMVC.Domain.Repositories
         public void Add(User newUser)
         {
             _libraryDbContext.Users.Add(newUser);
-        }
-
-        public void Commit()
-        {
             _libraryDbContext.SaveChanges();
         }
 
@@ -43,6 +38,7 @@ namespace LibraryMVC.Domain.Repositories
             {
                 userToDeactivate.IsActive = false;
             }
+            _libraryDbContext.SaveChanges();
         }
 
         public void Activation(User user)
@@ -52,6 +48,7 @@ namespace LibraryMVC.Domain.Repositories
             {
                 userToActivate.IsActive = true;
             }
+            _libraryDbContext.SaveChanges();
         }
 
         public IEnumerable<User> GetUsers()
@@ -68,6 +65,7 @@ namespace LibraryMVC.Domain.Repositories
         public void Edit(User user)
         {
             _libraryDbContext.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _libraryDbContext.SaveChanges();
         }
     }
 }

@@ -65,15 +65,19 @@ namespace LibraryMVC.Controllers
 
         public IActionResult BorrowBook(int bookId, int forUserId)
         {
-            _borrowedBookRepository.Borrow(bookId, forUserId);
+            var result = _borrowedBookRepository.Borrow(bookId, forUserId);
 
-
-            var model = new BorrowBookViewModel
+            if (result)
             {
-                UserId = forUserId,
-                Book = _bookRepository.Find(bookId)
-            };
-            return View(model);
+                var model = new BorrowBookViewModel
+                {
+                    UserId = forUserId,
+                    Book = _bookRepository.Find(bookId)
+                };
+                return View(model);
+            }
+            return View("Error");
+            
         }
 
         public IActionResult ReturnBook(int borrowedBookId)
@@ -88,15 +92,20 @@ namespace LibraryMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ReturnBookConfirmed(int borrowedBookId)
         {
-            _borrowedBookRepository.Return(borrowedBookId);
+            var result = _borrowedBookRepository.Return(borrowedBookId);
 
-            return RedirectToAction("SelectBorrowingUser", "BorrowBook");
+            return result ? RedirectToAction("SelectBorrowingUser", "BorrowBook") : RedirectToAction("Error");
         }
 
         public IActionResult BorrowingHistory()
         {
             var model = _borrowedBookRepository.ListOfAllBorrowedBooks();
             return View(model);
+        }
+
+        public IActionResult Error()
+        {
+            return View();
         }
     }
 

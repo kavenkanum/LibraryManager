@@ -10,16 +10,13 @@ namespace LibraryMVC.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IAccountRepository _accountRepository;
         private readonly SignInManager<Account> _signInManager;
         private readonly UserManager<Account> _userManager;
         private readonly IPasswordHasher<Account> _passwordHasher;
         private readonly ILogger<Account> _logger;
 
-
         public AccountController(IAccountRepository accountRepository, UserManager<Account> userManager, SignInManager<Account> signInManager, IPasswordHasher<Account> passwordHasher, ILogger<Account> logger)
         {
-            _accountRepository = accountRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _passwordHasher = passwordHasher;

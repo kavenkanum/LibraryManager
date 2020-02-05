@@ -31,7 +31,6 @@ namespace LibraryMVC.Controllers
         public IActionResult Add(Book book)
         {
             bookRepository.Add(book);
-            bookRepository.Commit();
             return RedirectToAction("List");
         }
 

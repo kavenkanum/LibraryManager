@@ -23,7 +23,6 @@ namespace LibraryMVC.Controllers
             if (ModelState.IsValid)
             {
                 _usersRepository.Activation(user);
-                _usersRepository.Commit();
             }
             return View(user);
         }
@@ -42,7 +41,6 @@ namespace LibraryMVC.Controllers
             if (ModelState.IsValid)
             {
                 _usersRepository.Deactivation(user);
-                _usersRepository.Commit();
             }
             return View(user);
         }
@@ -71,7 +69,6 @@ namespace LibraryMVC.Controllers
             if (ModelState.IsValid)
             {
                 _usersRepository.Edit(user);
-                _usersRepository.Commit();
             }
             return RedirectToAction("List", "Users");
 
