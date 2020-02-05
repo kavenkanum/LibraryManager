@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>Wybierz książkę</h3>
+<h3>Choose the book</h3>
 @using (Html.BeginForm())
 {
     <p>
@@ -16,8 +16,8 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>Imię</th>
-            <th>Nazwisko</th>
+            <th>Name</th>
+            <th>Surname</th>
             <th>Status</th>
             <th></th>
         </tr>
@@ -37,10 +37,10 @@
                     }
                 </td>
                 <td>
-                    <a href="@Url.Action("BorrowBook", "BorrowBook", new { bookId = book.ID, forUserId = Model.UserId })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Wypożycz</a>
+                    <a href="@Url.Action("BorrowBook", "BorrowBook", new { bookId = book.ID, forUserId = Model.UserId })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Borrow</a>
                 </td>
                 <td>
-                    <a href="@Url.Action("SelectUser", "BorrowBook", new { book.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Wróć</a>
+                    <a href="@Url.Action("SelectUser", "BorrowBook", new { book.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Back</a>
                 </td>
             </tr>
         }

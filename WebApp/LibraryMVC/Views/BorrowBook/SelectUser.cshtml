@@ -5,8 +5,8 @@
 }
 
 
-<h2>Wybierz użytkownika</h2>
-<p>Uwaga - możesz wybrać tylko użytkownika aktywnego. Jeśli chcesz aktywować użytkownika kliknij przycisk Aktywuj.</p>
+<h2>Choose the user</h2>
+<p>Note - you can choose only active user. If you want to activate the user, please press the button 'activate'.</p>
 
 @using (Html.BeginForm())
 {
@@ -35,17 +35,17 @@
                 <td>@user.FirstName</td>
                 <td>@user.LastName</td>
                 <td>
-                    @if (user.IsActive) {<span>Aktywny</span>}
-                    @if (!user.IsActive) {<span>Nieaktywny</span>}
+                    @if (user.IsActive) {<span>Active</span>}
+                    @if (!user.IsActive) {<span>Inactive</span>}
                 </td>
                 <td>
                     @if (user.IsActive)
                     {
-                        <a href="@Url.Action("SelectBook", "BorrowBook", new { forUserId = user.UserId })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Wybierz</a>
+                        <a href="@Url.Action("SelectBook", "BorrowBook", new { forUserId = user.UserId })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Choose</a>
                     }
                     @if (!user.IsActive)
                     {
-                        <a href="@Url.Action("Edit", "User", new { Id = user.UserId })" class="btn btn-primary">Aktywuj</a>
+                        <a href="@Url.Action("Edit", "User", new { Id = user.UserId })" class="btn btn-primary">Activate</a>
                     }
 
                 </td>

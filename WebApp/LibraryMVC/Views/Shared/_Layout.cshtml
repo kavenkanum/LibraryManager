@@ -33,9 +33,9 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="@Url.Action("Index", "Home")" class="navbar-brand">LibraryMVC</a></li>
-                    <li><a href="@Url.Action("Index", "Home")">Strona główna</a></li>
-                    <li><a href="@Url.Action("About", "Home")">O nas</a></li>
-                    <li><a href="@Url.Action("Contact", "Home")">Kontakt</a></li>
+                    <li><a href="@Url.Action("Index", "Home")">Main page</a></li>
+                    <li><a href="@Url.Action("About", "Home")">About us</a></li>
+                    <li><a href="@Url.Action("Contact", "Home")">Contact</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial");
             </div>
@@ -48,16 +48,16 @@
             <div class="col-sm-3 col-md-2 sidebar">
                 
                 <ul class="nav nav-sidebar">
-                    <li class="sidebar-header">Książki</li>
-                    <li class="sidebar-item active">@Html.ActionLink("Lista książek", "List", "Books")</li>
-                    <li class="sidebar-item active">@Html.ActionLink("Dodaj", "Add", "Books")</li>
-                    <li class="sidebar-item active">@Html.ActionLink("Wypożycz", "SelectUser", "BorrowBook")</li>
-                    <li class="sidebar-item active">@Html.ActionLink("Zwróć", "SelectBorrowingUser", "BorrowBook")</li>
-                    <li class="sidebar-item active">@Html.ActionLink("Historia wypożyczeń", "BorrowingHistory", "BorrowBook")</li>
-                    <li li class="sidebar-header">Użytkownicy</li>
-                    <li class="sidebar-item active">@Html.ActionLink("Lista użytkowników", "List", "Users")</li>
-                    <li class="sidebar-item active">@Html.ActionLink("Dodaj", "Add", "Users")</li>
-                    <li class="sidebar-item active">@Html.ActionLink("Dezaktywyj/Aktywuj", "Activation", "Users")</li>
+                    <li class="sidebar-header">Books</li>
+                    <li class="sidebar-item active">@Html.ActionLink("List", "List", "Books")</li>
+                    <li class="sidebar-item active">@Html.ActionLink("Add", "Add", "Books")</li>
+                    <li class="sidebar-item active">@Html.ActionLink("Borrow book", "SelectUser", "BorrowBook")</li>
+                    <li class="sidebar-item active">@Html.ActionLink("Return book", "SelectBorrowingUser", "BorrowBook")</li>
+                    <li class="sidebar-item active">@Html.ActionLink("Borrowing history", "BorrowingHistory", "BorrowBook")</li>
+                    <li li class="sidebar-header">Users</li>
+                    <li class="sidebar-item active">@Html.ActionLink("List", "List", "Users")</li>
+                    <li class="sidebar-item active">@Html.ActionLink("Add", "Add", "Users")</li>
+                    <li class="sidebar-item active">@Html.ActionLink("Activation / deactivation", "Activation", "Users")</li>
                 </ul>
             </div>
             <div class="col-sm-9 col-md-10 main">
@@ -68,7 +68,7 @@
 
         <hr />
         <footer>
-            <p>&copy; 2019 - LibraryMVC</p>
+            <p>&copy; 2020 - LibraryMVC</p>
         </footer>
 
     </div>

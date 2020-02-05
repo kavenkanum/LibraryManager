@@ -1,14 +1,14 @@
 ﻿@model LibraryMVC.Controllers.BorrowBookViewModel
 @{
-    ViewData["Title"] = "Książka wypożyczona";
+    ViewData["Title"] = "Book was borrowed.";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>@Model.Book.Name</h2>
 
 
-<p>Aby wypożyczyć kolejną książkę naciśnij przycisk wróć.</p>
+<p>To borrow another book, please press 'back' button.</p>
 
-<a href="@Url.Action("SelectBook", "BorrowBook", new { forUserId = Model.UserId })" class="btn btn-default">Wróć</a>
-<a href="@Url.Action("Index", "Home")" class="btn btn-default">Strona główna</a>
+<a href="@Url.Action("SelectBook", "BorrowBook", new { forUserId = Model.UserId })" class="btn btn-default">Back</a>
+<a href="@Url.Action("Index", "Home")" class="btn btn-default">Main page</a>
 

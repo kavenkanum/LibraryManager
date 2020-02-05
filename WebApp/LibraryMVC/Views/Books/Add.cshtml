@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Dodaj książkę</h2>
+<h2>Add new book</h2>
 
 <hr />
 
@@ -16,22 +16,22 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label asp-for="Name" class="control-label">Nazwa</label>
+                <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Author" class="control-label">Autor</label>
+                <label asp-for="Author" class="control-label"></label>
                 <input asp-for="Author" class="form-control" />
                 <span asp-validation-for="Author" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NumberAvailableBooks" class="control-label">Ilość książek</label>
-                <input asp-for="NumberAvailableBooks" class="form-control" />
-                <span asp-validation-for="NumberAvailableBooks" class="text-danger"></span>
+                <label asp-for="NumberAllBooks" class="control-label">Number of books</label>
+                <input asp-for="NumberAllBooks" class="form-control" />
+                <span asp-validation-for="NumberAllBooks" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Dodaj" class="btn btn-default" />
+                <input type="submit" value="Add" class="btn btn-default" />
             </div>
         </div>
     </div>
