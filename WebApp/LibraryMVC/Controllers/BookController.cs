@@ -19,73 +19,80 @@ namespace LibraryMVC.Controllers
 
         public BookController(IBookRepository bookRepository, IImageReader imageReader, IMediator mediator)
         {
-            this._bookRepository = bookRepository;
+            _bookRepository = bookRepository;
             _imageReader = imageReader;
             _mediator = mediator;
         }
 
         public IActionResult View(int id)
         {
-            //TODO: If book is null => NotFound()
             var book = _bookRepository.Find(id);
-            return View(book);
+            if (book != null)
+            {
+                return View(book);
+            }
+            return View("Error");
         }
 
         public IActionResult Delete(int id)
         {
-            //TODO: What if someone has borrowed this book?
-            //TODO: If book is null => NotFound()
             var book = _bookRepository.Find(id);
-            return View(book);
+            if (book != null)
+            {
+                return View(book);
+            }
+            return View("Error");
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            //TODO: Delete(int id)
-            //TODO: SaveChanges should be executed inside repository, not in controller
-            Book book = _bookRepository.Find(id);
-            _bookRepository.Delete(book);
-            _bookRepository.Commit();
-            return RedirectToAction("List", "Books");
+            var result = _bookRepository.Delete(id);
+            return result ? RedirectToAction("List", "Books") : RedirectToAction("Error");
         }
 
         public IActionResult Edit(int id)
         {
             //TODO: If book is null => NotFound()
             Book book = _bookRepository.Find(id);
-            return View(book);
+            if (book != null)
+            {
+                return View(book);
+            }
+            return View("Error");
         }
 
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Book book)
         {
-            //TODO: SaveChanges should be executed inside repository, not in controller
             if (ModelState.IsValid)
             {
                 _bookRepository.Edit(book);
-                _bookRepository.Commit();
                 return RedirectToAction("List", "Books");
             }
             return View(book);
         }
-
+        [HttpGet]
         public IActionResult AddDescription(int id)
         {
-            Book book = _bookRepository.Find(id);
-            return View(book);
+            return View(new AddDescriptionCommand()
+            {
+                BookId = id
+            });
+
+            //Book book = _bookRepository.Find(id);
+            //return View(book);
         }
 
         [HttpPost]
-        public IActionResult AddDescription(AddDescriptionModel model)
+        public async Task<IActionResult> AddDescription(AddDescriptionCommand model)
         {
-            _bookRepository.AddDescritpion(model.Id, model.Description);
-            return RedirectToAction("View", new { model.Id });
+            var result = await _mediator.Send(model);
+            return result ? RedirectToAction("View", new {id = model.BookId }) : RedirectToAction("Error");
         }
 
-        //TODO: Refactor
         [HttpPost]
         public async Task<IActionResult> AddImage(AddImageModel model)
         {
@@ -103,15 +110,14 @@ namespace LibraryMVC.Controllers
             });
         }
 
+        public IActionResult Error()
+        {
+            return View();
+        }
+
     }
 
     
-    public class AddDescriptionModel
-    {
-        public int Id { get; set; }
-        public string Description { get; set; }
-    }
-
     public class AddImageModel
     {
         public int Id { get; set; }

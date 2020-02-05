@@ -1,6 +1,6 @@
-﻿@model LibraryMVC.Domain.Entities.Book
+﻿@model LibraryMVC.Domain.Commands.AddDescriptionCommand
 @{
-    ViewData["Title"] = "Dodaj opis";
+    ViewData["Title"] = "Add description";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,6 +9,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.BookId)
     <div class="row">
         <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -20,11 +21,11 @@
             </div>
         </div>
     </div>
-    
+
 }
 
 
-    <div>
-        <a href="@Url.Action("View", "Book", new { Model.ID })" class="button">Wróć</a>
+<div>
+    <a href="@Url.Action("View", "Book", new { id = Model.BookId })" class="button">Back</a>
 
-    </div>
+</div>
