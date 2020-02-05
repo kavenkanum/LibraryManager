@@ -3,6 +3,7 @@ using LibraryMVC.Domain.Entities;
 using LibraryMVC.Domain.Identities;
 using LibraryMVC.Domain.Queries;
 using LibraryMVC.Domain.Repositories;
+using LibraryMVC.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -53,6 +54,7 @@ namespace LibraryMVC
             services.AddTransient<IUsersRepository, UsersRepository>();
             services.AddTransient<IBorrowedBookRepository, BorrowedBookRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
+            services.AddTransient<IImageReader, ImageReader>();
 
             services.AddIdentity<Account, UserRole>()
                 .AddUserStore<UserStore>()
