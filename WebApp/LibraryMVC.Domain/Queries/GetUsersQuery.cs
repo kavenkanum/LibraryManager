@@ -4,24 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using LibraryMVC.Domain.Entities;
 using MediatR;
 
 namespace LibraryMVC.Domain.Queries
 {
     public class GetUsersQueryRow
     {
-        public GetUsersQueryRow(int userId, string firstName, string lastName, bool isActive)
+        public GetUsersQueryRow(int userId, string firstName, string lastName, Status status)
         {
             UserId = userId;
             FirstName = firstName;
             LastName = lastName;
-            IsActive = isActive;
+            Status = status;
         }
 
         public int UserId { get; }
         public string FirstName { get; }
         public string LastName { get; }
-        public bool IsActive { get; }
+        public Status Status { get; }
     }
     public class GetUsersQuery : IRequest<IEnumerable<GetUsersQueryRow>>
     {
@@ -51,9 +52,7 @@ namespace LibraryMVC.Domain.Queries
             if (!string.IsNullOrEmpty(request.SearchString))
             {
                 usersQuery = usersQuery.Where(u =>
-                    (u.FirstName.ToLower().Contains(request.SearchString.ToLower()) ||
-                     u.LastName.ToLower().Contains(request.SearchString.ToLower())) ||
-                    $"{u.FirstName.ToLower()} {u.LastName.ToLower()}".Contains(request.SearchString.ToLower()));
+                   (u.FullName.Contains(request.SearchString)));
             }
 
             switch (request.SortBy)
@@ -73,7 +72,7 @@ namespace LibraryMVC.Domain.Queries
             }
 
             IEnumerable<GetUsersQueryRow> results = usersQuery
-                .Select(u => new GetUsersQueryRow(u.ID, u.FirstName, u.LastName, u.IsActive))
+                .Select(u => new GetUsersQueryRow(u.ID, u.FirstName, u.LastName, u.Status))
                 .ToList();
 
             return Task.FromResult(results);

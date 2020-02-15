@@ -1,6 +1,6 @@
 ﻿@model LibraryMVC.Controllers.SelectBookViewModel
 @{
-    ViewData["Title"] = "SelectBook";
+    ViewData["Title"] = "Select Book";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -37,10 +37,10 @@
                     }
                 </td>
                 <td>
-                    <a href="@Url.Action("BorrowBook", "BorrowBook", new { bookId = book.ID, forUserId = Model.UserId })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Borrow</a>
+                    <a href="@Url.Action("BorrowBook", "BorrowBook", new { bookId = book.BookId, forUserId = Model.UserId })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Borrow</a>
                 </td>
                 <td>
-                    <a href="@Url.Action("SelectUser", "BorrowBook", new { book.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Back</a>
+                    <a href="@Url.Action("SelectUser", "BorrowBook", new { book.BookId })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Back</a>
                 </td>
             </tr>
         }

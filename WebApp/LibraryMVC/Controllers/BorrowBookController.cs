@@ -47,19 +47,15 @@ namespace LibraryMVC.Controllers
             return View(model);
         }
 
-        public IActionResult SelectBook(int forUserId, string searchString)
+        public async Task<IActionResult> SelectBook(int forUserId, string searchString)
         {
+            var books = await _mediator.Send(new BooksQuery(searchString));
             var model = new SelectBookViewModel
             {
-                AvailableBooks = _bookRepository.GetAvailableBooks(),
+                AvailableBooks = books,
                 UserId = forUserId
             };
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                model.AvailableBooks = model.AvailableBooks.Where(b => b.Name.ToLower().Contains(searchString.ToLower()) || b.Author.ToLower().Contains(searchString.ToLower()));
-            }
-
+            
             return View(model);
         }
 
@@ -112,7 +108,7 @@ namespace LibraryMVC.Controllers
     public class SelectBookViewModel
     {
         public int UserId { get; set; }
-        public IEnumerable<Book> AvailableBooks { get; set; }
+        public IEnumerable<BooksQueryRow> AvailableBooks { get; set; }
     }
 
     public class BorrowBookViewModel
