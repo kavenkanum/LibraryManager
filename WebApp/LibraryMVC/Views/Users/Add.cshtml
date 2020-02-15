@@ -1,28 +1,22 @@
-﻿@model LibraryMVC.Domain.Entities.User
+﻿@model LibraryMVC.Controllers.AddUserModel
 @{
     ViewData["Title"] = "Add";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Dodaj użytkownika</h2>
+<h2>Add user</h2>
 @using (Html.BeginForm(FormMethod.Post))
 {
     <div class="row">
         <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            @*<div class="form-group">
-                <label asp-for="NickName" class="control-label"></label>
-                <input asp-for="NickName" class="form-control" />
-                <span asp-validation-for="NickName" class="text-danger"></span>
-            </div>*@
             <div class="form-group">
-                <label asp-for="FirstName" class="control-label">Imię</label>
+                <label asp-for="FirstName" class="control-label">Name</label>
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label">Nazwisko</label>
+                <label asp-for="LastName" class="control-label">Surname</label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>

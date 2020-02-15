@@ -7,7 +7,7 @@ namespace LibraryMVC.Domain.Repositories
     public interface IBookRepository
     {
         IEnumerable<Book> GetBooks();
-        void Add(Book newBook);
+        void Add(string name, string author, int numberAllBooks);
         Book SelectBook(Book selectedBook);
         bool Delete(int id);
         Book Find(int ID);
@@ -35,14 +35,18 @@ namespace LibraryMVC.Domain.Repositories
             }
             else
             {
-                Add(newBook);
+                //Add(newBook);
             }
         }
 
-        public void Add(Book newBook)
+        public void Add(string name, string author, int numberAllBooks)
         {
+            var newBook = new Book();
+            newBook.Name = name;
+            newBook.Author = author;
+            newBook.NumberAllBooks = numberAllBooks;
+            newBook.NumberAvailableBooks = numberAllBooks;
             _libraryDbContext.Books.Add(newBook);
-            newBook.NumberAvailableBooks = newBook.NumberAllBooks;
             _libraryDbContext.SaveChanges();
         }
 

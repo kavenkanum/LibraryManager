@@ -1,24 +1,24 @@
 ﻿using LibraryMVC.Domain.Entities;
 using LibraryMVC.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
-
+using System.ComponentModel.DataAnnotations;
 
 namespace LibraryMVC.Controllers
 {
     public class BooksController : Controller
     {
-        private readonly IBookRepository bookRepository;
-        private readonly IUsersRepository userRepository;
+        private readonly IBookRepository _bookRepository;
+        private readonly IUsersRepository _userRepository;
 
-        public BooksController(IBookRepository _bookRepository, IUsersRepository _userRepository)
+        public BooksController(IBookRepository bookRepository, IUsersRepository userRepository)
         {
-            bookRepository = _bookRepository;
-            userRepository = _userRepository;
+            _bookRepository = bookRepository;
+            _userRepository = userRepository;
         }
 
         public IActionResult List()
         {
-            var books = bookRepository.GetBooks();
+            var books = _bookRepository.GetBooks();
             return View(books);
         }
 
@@ -28,22 +28,31 @@ namespace LibraryMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(Book book)
+        public IActionResult Add(AddBookModel book)
         {
-            bookRepository.Add(book);
-            return RedirectToAction("List");
+            if (ModelState.IsValid)
+            {
+                _bookRepository.Add(book.Name, book.Author, book.NumberAllBooks);
+                return RedirectToAction("List");
+            }
+            return View(book);
         }
 
         public IActionResult Delete()
         {
-            var books = bookRepository.GetBooks();
+            var books = _bookRepository.GetBooks();
             return View(books);
         }
+       
+    }
 
-
-
-
-        
-        
+    public class AddBookModel
+    {
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public string Author { get; set; }
+        [Required]
+        public int NumberAllBooks { get; set; }
     }
 }
