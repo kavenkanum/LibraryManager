@@ -5,18 +5,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Detale książki</h2>
+<h2>Book details</h2>
 <p>
     @Html.DisplayFor(model => model.Description)
 </p>
 <img src="@Html.ToBase64Image(Model.Image)" />
 
-<a href="@Url.Action("List", "Books")" class="btn btn-warning"><span class="glyphicon glyphicon glyphicon-hand-left" aria-hidden="true"></span> Powrót</a>
+<a href="@Url.Action("List", "Books")" class="btn btn-warning"><span class="glyphicon glyphicon glyphicon-hand-left" aria-hidden="true"></span>Back</a>
 
     @if (Model.Description == null)
-    {<a href="@Url.Action("AddDescription", "Book", new { Model.ID })" class="button">Dodaj opis</a> }
+    {<a href="@Url.Action("AddDescription", "Book", new { Model.ID })" class="button">Add description</a> }
     else
-    { <a href="@Url.Action("AddDescription", "Book", new { Model.ID })" class="button">Edytuj opis</a>}
-    <a href="@Url.Action("AddImage", "Book", new { Model.ID })" class="button">Dodaj obraz</a>
+    { <a href="@Url.Action("AddDescription", "Book", new { Model.ID })" class="button">Edit description</a>}
+    <a href="@Url.Action("AddImage", "Book", new { Model.ID })" class="button">Add image</a>
 
 

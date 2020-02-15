@@ -8,9 +8,8 @@ namespace LibraryMVC.Domain.Repositories
 {
     public interface IBorrowedBookRepository
     {
-        void Borrow(int bookId, int toUserId);
-        void Return(int borrowedBookId);
-        void DecreaseNumberOfAvailableBooks(int bookId);
+        bool Borrow(int bookId, int toUserId);
+        bool Return(int borrowedBookId);
         int Find(int bookId);
         IEnumerable<Book> SelectBorrowedBooksByUser(int userId);
         IEnumerable<Book> SelectNotReturnedBorrowedBooksByUser(int userId);
@@ -28,19 +27,25 @@ namespace LibraryMVC.Domain.Repositories
             _libraryDbContext = libraryDbContext;
         }
 
-        public void Borrow(int bookId, int toUserId)
+        public bool Borrow(int bookId, int toUserId)
         {
-            DateTime timeOfBorrow = DateTime.UtcNow;
-            var borrowedBook = new BorrowedBook()   //tworzę nowy obiekt
+            var book = _libraryDbContext.Books.Find(bookId);
+            if (book != null && book.NumberAvailableBooks > 0)
             {
-                UserId = toUserId,
-                BookId = bookId,
-                DateOfBorrow = timeOfBorrow
-            };
+                DateTime timeOfBorrow = DateTime.UtcNow;
+                var borrowedBook = new BorrowedBook()   //tworzę nowy obiekt
+                {
+                    UserId = toUserId,
+                    BookId = bookId,
+                    DateOfBorrow = timeOfBorrow
+                };
 
-            _libraryDbContext.Add(borrowedBook);
-            DecreaseNumberOfAvailableBooks(bookId);
-            _libraryDbContext.SaveChanges();
+                _libraryDbContext.Add(borrowedBook);
+                book.NumberAvailableBooks--;
+                _libraryDbContext.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
         public IEnumerable<UserWithBorrowedBooks> GetUsersWithBorrowedBooks()
@@ -61,6 +66,8 @@ namespace LibraryMVC.Domain.Repositories
         public IEnumerable<UserWithBorrowedBooks> ListOfAllBorrowedBooks()
         {
             return _libraryDbContext.Users
+                .Include(u => u.BorrowedBooks)
+                .ThenInclude(bb => bb.Book)
                 .Include($"{nameof(User.BorrowedBooks)}.{nameof(BorrowedBook.Book)}")
                 .Select(u =>
                 new UserWithBorrowedBooks
@@ -71,7 +78,7 @@ namespace LibraryMVC.Domain.Repositories
                 .ToList();
         }
 
-        public void Return(int borrowedBookId)
+        public bool Return(int borrowedBookId)
         {
             DateTime timeOfReturn = DateTime.UtcNow;
             var borrowedBook = _libraryDbContext.BorrowedBooks.SingleOrDefault(bb => bb.ID == borrowedBookId);
@@ -83,20 +90,13 @@ namespace LibraryMVC.Domain.Repositories
                                   select b.BookId;
 
             var returningBook = _libraryDbContext.Books.Find(returningBookId.FirstOrDefault());
-            returningBook.NumberAvailableBooks++;
-            
-            _libraryDbContext.SaveChanges();
-        }
-
-
-        public void DecreaseNumberOfAvailableBooks(int bookId)
-        {
-            var borrowedBook = _libraryDbContext.Books.Find(bookId);
-
-            if (borrowedBook != null)
+            if (returningBook != null && returningBook.NumberAvailableBooks < returningBook.NumberAllBooks)
             {
-                borrowedBook.NumberAvailableBooks--;
+                returningBook.NumberAvailableBooks++;
+                _libraryDbContext.SaveChanges();
+                return true;
             }
+            return false; 
         }
 
         public int Find(int borrowedBookId)

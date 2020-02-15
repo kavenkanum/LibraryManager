@@ -1,18 +1,18 @@
 ﻿@model IEnumerable<LibraryMVC.Domain.Repositories.UserWithBorrowedBooks>
 @{
-    ViewData["Title"] = "Historia wypożyczeń";
+    ViewData["Title"] = "Book loan histor";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Historia wypożyczeń</h2>
+<h2>Book loan history</h2>
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Nr</th>
-            <th>Tytuł</th>
-            <th>Autor</th>
-            <th>Data wypożyczenia</th>
-            <th>Data zwrotu</th>
-            <th>Wypożyczający</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Borrow date</th>
+            <th>Return date</th>
+            <th>Borrowing user</th>
         </tr>
     </thead>
     <tbody>

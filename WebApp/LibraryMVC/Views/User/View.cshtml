@@ -1,19 +1,19 @@
 ﻿@model LibraryMVC.Controllers.UserViewModel
 
 @{
-    ViewData["Title"] = "Użytkownik";
+    ViewData["Title"] = "User";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 <dt>
-    Imię:
+    Name:
 </dt>
 <dd>
     @Html.DisplayFor(model => model.User.FirstName)
 </dd>
 <dt>
-    Nazwisko:
+    Surname:
 </dt>
 <dd>
     @Html.DisplayFor(model => model.User.LastName)
@@ -22,17 +22,17 @@
     Status:
 </dt>
 <dd>
-    @if (Model.User.IsActive)
+    @if (Model.User.Status == LibraryMVC.Domain.Entities.Status.Active)
     {
-        <p>Aktywny</p>
+        <p>Active</p>
     }
-    @if (!Model.User.IsActive)
+    @if (Model.User.Status == LibraryMVC.Domain.Entities.Status.Inactive)
     {
-        <p>Nieaktywny</p>
+        <p>Inactive</p>
     }
 </dd>
 <dt>
-    Obecnie wypożyczone książki:
+    Currently borrowed books:
 </dt>
 <dd>
     @foreach(var book in Model.BorrowedBooks)

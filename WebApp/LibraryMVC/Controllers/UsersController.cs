@@ -1,6 +1,7 @@
 ﻿using LibraryMVC.Domain.Entities;
 using LibraryMVC.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibraryMVC.Controllers
 {
@@ -26,11 +27,14 @@ namespace LibraryMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(User user)
+        public IActionResult Add(AddUserModel user)
         {
-            usersRepository.Add(user);
-            usersRepository.Commit();
-            return RedirectToAction("List");
+            if (ModelState.IsValid)
+            {
+                usersRepository.Add(user.FirstName, user.LastName);
+                return RedirectToAction("List");
+            }
+            return View(user);
         }
 
         public IActionResult Add()
@@ -42,5 +46,12 @@ namespace LibraryMVC.Controllers
         {
             return View();
         }
+    }
+    public class AddUserModel
+    {
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
     }
 }

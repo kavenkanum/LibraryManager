@@ -1,7 +1,10 @@
 ﻿using LibraryMVC.Domain;
 using LibraryMVC.Domain.Entities;
 using LibraryMVC.Domain.Identities;
+using LibraryMVC.Domain.Queries;
 using LibraryMVC.Domain.Repositories;
+using LibraryMVC.Utils;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,16 +54,21 @@ namespace LibraryMVC
             services.AddTransient<IUsersRepository, UsersRepository>();
             services.AddTransient<IBorrowedBookRepository, BorrowedBookRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
+            services.AddTransient<IImageReader, ImageReader>();
 
             services.AddIdentity<Account, UserRole>()
                 .AddUserStore<UserStore>()
                 .AddRoleStore<RoleStore>();
-            
+
+            services.AddMediatR(typeof(GetUsersQuery));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, LibraryDbContext libraryDbContext)
         {
+            libraryDbContext.Database.EnsureCreated();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

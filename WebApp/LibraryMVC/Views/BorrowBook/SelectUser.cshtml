@@ -1,12 +1,12 @@
-﻿@model IEnumerable<LibraryMVC.Domain.Entities.User>
+﻿@model IEnumerable<LibraryMVC.Domain.Queries.GetUsersQueryRow>
 @{
-    ViewData["Title"] = "SelectUser";
+    ViewData["Title"] = "Select User";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
-<h2>Wybierz użytkownika</h2>
-<p>Uwaga - możesz wybrać tylko użytkownika aktywnego. Jeśli chcesz aktywować użytkownika kliknij przycisk Aktywuj.</p>
+<h2>Choose the user</h2>
+<p>Note - you can choose only active user. If you want to activate the user, please press the button 'activate'.</p>
 
 @using (Html.BeginForm())
 {
@@ -20,8 +20,8 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>@Html.ActionLink("Imię", "SelectUser", new { sortBy = ViewBag.FirstNameSortParm })</th>
-            <th>@Html.ActionLink("Nazwisko", "SelectUser", new { sortBy = ViewBag.LastNameSortParm })</th>
+            <th>@Html.ActionLink("Name", "SelectUser", new { sortBy = ViewBag.FirstNameSortParm })</th>
+            <th>@Html.ActionLink("Surname", "SelectUser", new { sortBy = ViewBag.LastNameSortParm })</th>
             <th>Status</th>
             <th></th>
         </tr>
@@ -35,17 +35,17 @@
                 <td>@user.FirstName</td>
                 <td>@user.LastName</td>
                 <td>
-                    @if (user.IsActive) {<span>Aktywny</span>}
-                    @if (!user.IsActive) {<span>Nieaktywny</span>}
+                    @if (user.Status == LibraryMVC.Domain.Entities.Status.Active) {<span>Active</span>}
+                    @if (user.Status == LibraryMVC.Domain.Entities.Status.Inactive) {<span>Inactive</span>}
                 </td>
                 <td>
-                    @if (user.IsActive)
+                    @if (user.Status == LibraryMVC.Domain.Entities.Status.Active)
                     {
-                        <a href="@Url.Action("SelectBook", "BorrowBook", new { forUserId = user.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Wybierz</a>
+                        <a href="@Url.Action("SelectBook", "BorrowBook", new { forUserId = user.UserId })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Choose</a>
                     }
-                    @if (!user.IsActive)
+                    @if (user.Status == LibraryMVC.Domain.Entities.Status.Inactive)
                     {
-                        <a href="@Url.Action("Edit", "User", new { user.ID })" class="btn btn-primary">Aktywuj</a>
+                        <a href="@Url.Action("Edit", "User", new { Id = user.UserId })" class="btn btn-primary">Activate</a>
                     }
 
                 </td>

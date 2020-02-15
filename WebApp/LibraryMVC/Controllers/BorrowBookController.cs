@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LibraryMVC.Domain.Entities;
+using LibraryMVC.Domain.Queries;
 using LibraryMVC.Domain.Repositories;
+using MediatR;
 
 
 namespace LibraryMVC.Controllers
@@ -14,42 +17,25 @@ namespace LibraryMVC.Controllers
         private readonly IUsersRepository _usersRepository;
         private readonly IBookRepository _bookRepository;
         private readonly IBorrowedBookRepository _borrowedBookRepository;
+        private readonly IMediator _mediator;
 
-        public BorrowBookController(IUsersRepository usersRepository, IBookRepository bookRepository, IBorrowedBookRepository borrowedBookRepository)
+        public BorrowBookController(IUsersRepository usersRepository, IBookRepository bookRepository, IBorrowedBookRepository borrowedBookRepository, IMediator mediator)
         {
             _usersRepository = usersRepository;
             _bookRepository = bookRepository;
             _borrowedBookRepository = borrowedBookRepository;
+            _mediator = mediator;
         }
 
-        public IActionResult SelectUser(string searchString, string sortBy)
+        //TODO: Refactor
+        public async Task<IActionResult> SelectUser(string searchString, string sortBy)
         {
-            var users = _usersRepository.GetUsers();
-            
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                users = users.Where(u => (u.FirstName.ToLower().Contains(searchString.ToLower()) || u.LastName.ToLower().Contains(searchString.ToLower())) || $"{u.FirstName.ToLower()} {u.LastName.ToLower()}".Contains(searchString.ToLower()));
-            }
-
             ViewBag.LastNameSortParm = string.IsNullOrEmpty(sortBy) ? "LastNameDesc" : "";
             ViewBag.FirstNameSortParm = sortBy == "FirstName" ? "FirstNameDesc" : "FirstName";
 
-            switch (sortBy)
-            {
-                case "FirstNameDesc":
-                    users = users.OrderByDescending(u => u.FirstName);
-                    break;
-                case "FirstName":
-                    users = users.OrderBy(u => u.FirstName);
-                    break;
-                case "LastNameDesc":
-                    users = users.OrderByDescending(u => u.LastName);
-                    break;
-                default:
-                    users = users.OrderBy(u => u.LastName);
-                    break;
-            }
-            return View(users.ToList());
+            var users = await _mediator.Send(new GetUsersQuery(searchString, sortBy));
+
+            return View(users);
         }
 
         
@@ -61,33 +47,33 @@ namespace LibraryMVC.Controllers
             return View(model);
         }
 
-        public IActionResult SelectBook(int forUserId, string searchString)
+        public async Task<IActionResult> SelectBook(int forUserId, string searchString)
         {
+            var books = await _mediator.Send(new BooksQuery(searchString));
             var model = new SelectBookViewModel
             {
-                AvailableBooks = _bookRepository.GetAvailableBooks(),
+                AvailableBooks = books,
                 UserId = forUserId
             };
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                model.AvailableBooks = model.AvailableBooks.Where(b => b.Name.ToLower().Contains(searchString.ToLower()) || b.Author.ToLower().Contains(searchString.ToLower()));
-            }
-
+            
             return View(model);
         }
 
         public IActionResult BorrowBook(int bookId, int forUserId)
         {
-            _borrowedBookRepository.Borrow(bookId, forUserId);
+            var result = _borrowedBookRepository.Borrow(bookId, forUserId);
 
-
-            var model = new BorrowBookViewModel
+            if (result)
             {
-                UserId = forUserId,
-                Book = _bookRepository.Find(bookId)
-            };
-            return View(model);
+                var model = new BorrowBookViewModel
+                {
+                    UserId = forUserId,
+                    Book = _bookRepository.Find(bookId)
+                };
+                return View(model);
+            }
+            return View("Error");
+            
         }
 
         public IActionResult ReturnBook(int borrowedBookId)
@@ -102,9 +88,9 @@ namespace LibraryMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ReturnBookConfirmed(int borrowedBookId)
         {
-            _borrowedBookRepository.Return(borrowedBookId);
+            var result = _borrowedBookRepository.Return(borrowedBookId);
 
-            return RedirectToAction("SelectBorrowingUser", "BorrowBook");
+            return result ? RedirectToAction("SelectBorrowingUser", "BorrowBook") : RedirectToAction("Error");
         }
 
         public IActionResult BorrowingHistory()
@@ -112,12 +98,17 @@ namespace LibraryMVC.Controllers
             var model = _borrowedBookRepository.ListOfAllBorrowedBooks();
             return View(model);
         }
+
+        public IActionResult Error()
+        {
+            return View();
+        }
     }
 
     public class SelectBookViewModel
     {
         public int UserId { get; set; }
-        public IEnumerable<Book> AvailableBooks { get; set; }
+        public IEnumerable<BooksQueryRow> AvailableBooks { get; set; }
     }
 
     public class BorrowBookViewModel

@@ -12,6 +12,7 @@ namespace LibraryMVC.Domain.Entities
 
         public string Name { get; set; }
         public string Author { get; set; }
+        public int NumberAllBooks { get; set; }
         public int NumberAvailableBooks { get; set; }
         public IEnumerable<BorrowedBook> BorrowingUsers { get; set; }
         public string Description { get; set; }

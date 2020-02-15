@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<LibraryMVC.Domain.Entities.Book>
 
 @{
-    ViewData["Title"] = "Usuń";
+    ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,9 +11,9 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>Nazwa</th>
-                <th>Autor</th>
-                <th>Ilość dostępnych sztuk</th>
+                <th>Name</th>
+                <th>Author</th>
+                <th>Number of available books</th>
                 <th></th>
             </tr>
         </thead>
@@ -27,7 +27,7 @@
                 <td>@book.Author</td>
                 <td>@book.NumberAvailableBooks</td>
                 <td>
-                    <a href="@Url.Action("Delete", "Book", new { book.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Usuń pozycję</a>
+                    <a href="@Url.Action("Delete", "Book", new { book.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Delete</a>
                 </td>
             </tr>
     }

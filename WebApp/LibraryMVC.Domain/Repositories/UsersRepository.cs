@@ -7,10 +7,9 @@ namespace LibraryMVC.Domain.Repositories
 {
     public interface IUsersRepository
     {
-        void Add(User newUser);
-        void Commit();
-        void Deactivation(User user);
-        void Activation(User user);
+        void Add(string firstName, string lastName);
+        void Deactivation(int userId);
+        void Activation(int userId);
         IEnumerable<User> GetUsers();
         User Find(int ID);
         void Edit(User user);
@@ -26,32 +25,32 @@ namespace LibraryMVC.Domain.Repositories
             _libraryDbContext = libraryDbContext;
         }
 
-        public void Add(User newUser)
+        public void Add(string firstName, string lastName)
         {
+            User newUser = new User() { FirstName = firstName, LastName = lastName };
+            newUser.Status = Status.Inactive;
             _libraryDbContext.Users.Add(newUser);
-        }
-
-        public void Commit()
-        {
             _libraryDbContext.SaveChanges();
         }
 
-        public void Deactivation(User user)
+        public void Deactivation(int userId)
         {
-            var userToDeactivate = _libraryDbContext.Users.SingleOrDefault(u => u.ID == user.ID);
-            if (userToDeactivate  != null && userToDeactivate.IsActive)
+            var userToDeactivate = _libraryDbContext.Users.SingleOrDefault(u => u.ID == userId);
+            if (userToDeactivate  != null && userToDeactivate.Status == Status.Active)
             {
-                userToDeactivate.IsActive = false;
+                userToDeactivate.Status = Status.Inactive;
             }
+            _libraryDbContext.SaveChanges();
         }
 
-        public void Activation(User user)
+        public void Activation(int userId)
         {
-            var userToActivate = _libraryDbContext.Users.SingleOrDefault(u => u.ID == user.ID);
-            if (userToActivate != null && !userToActivate.IsActive)
+            var userToActivate = _libraryDbContext.Users.SingleOrDefault(u => u.ID == userId);
+            if (userToActivate != null && userToActivate.Status != Status.Active)
             {
-                userToActivate.IsActive = true;
+                userToActivate.Status = Status.Active;
             }
+            _libraryDbContext.SaveChanges();
         }
 
         public IEnumerable<User> GetUsers()
@@ -68,6 +67,7 @@ namespace LibraryMVC.Domain.Repositories
         public void Edit(User user)
         {
             _libraryDbContext.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _libraryDbContext.SaveChanges();
         }
     }
 }

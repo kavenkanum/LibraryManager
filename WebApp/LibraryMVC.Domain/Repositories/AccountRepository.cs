@@ -6,10 +6,7 @@ using LibraryMVC.Domain.Entities;
 namespace LibraryMVC.Domain.Repositories
 {
     public interface IAccountRepository
-    {
-        void Add(Account newAccount);
-        void Commit();
-        
+    {        
         //bool LoginSuccess(string email, string password);
     }
 
@@ -20,17 +17,6 @@ namespace LibraryMVC.Domain.Repositories
         {
             _libraryDbContext = libraryDbContext;
         }
-
-        public void Add(Account newAccount)
-        {
-            _libraryDbContext.Accounts.Add(newAccount);
-        }
-
-        public void Commit()
-        {
-            _libraryDbContext.SaveChanges();
-        }
-
 
         //public bool LoginSuccess(string email, string password)
         //{
