@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Threading.Tasks;
 using LibraryMVC.Domain.Commands;
@@ -58,32 +59,39 @@ namespace LibraryMVC.Controllers
             Book book = _bookRepository.Find(id);
             if (book != null)
             {
-                return View(book);
+                return View(new EditBookModel()
+                {
+                    BookId = id,
+                    Name = book.Name,
+                    Author = book.Author,
+                    NumberAllBooks = book.NumberAllBooks
+                });
+
             }
             return View("Error");
         }
 
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Book book)
+        public async Task<IActionResult> Edit(EditBookModel model)
         {
             if (ModelState.IsValid)
             {
-                _bookRepository.Edit(book);
-                return RedirectToAction("List", "Books");
+                var result = await _mediator.Send(new EditBookCommand(model.BookId, model.Name, model.Author, model.NumberAllBooks));
+                return result ? RedirectToAction("List", "Books") : RedirectToAction("Error");
             }
-            return View(book);
+            return View(model);
         }
         [HttpGet]
         public IActionResult AddDescription(int id)
         {
+            Book book = _bookRepository.Find(id);
             return View(new AddDescriptionCommand()
             {
-                BookId = id
+                BookId = id,
+                Description = book.Description
             });
 
-            //Book book = _bookRepository.Find(id);
-            //return View(book);
         }
 
         [HttpPost]
@@ -116,8 +124,15 @@ namespace LibraryMVC.Controllers
         }
 
     }
-
-    
+    public class EditBookModel
+    {
+        public int BookId { get; set; }
+        [Required(ErrorMessage = "Name of the book is required")]
+        public string Name { get; set; }
+        [Required]
+        public string Author { get; set; }
+        public int NumberAllBooks { get; set; }
+    }
     public class AddImageModel
     {
         public int Id { get; set; }
