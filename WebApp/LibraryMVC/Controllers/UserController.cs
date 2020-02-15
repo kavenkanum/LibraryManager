@@ -17,19 +17,14 @@ namespace LibraryMVC.Controllers
             _borrowedBookRepository = borrowedBookRepository;
         }
 
-        public IActionResult Activation(int id)
+        public IActionResult Activation(int userId)
         {
-            var user = _usersRepository.Find(id);
-            if (ModelState.IsValid)
-            {
-                _usersRepository.Activation(user);
-            }
-            return View(user);
+            _usersRepository.Activation(userId);
+            return View();
         }
 
         public IActionResult Deactivation(int userId)
         {
-            var user = _usersRepository.Find(userId);
             var borrowedBooks = _borrowedBookRepository.SelectNotReturnedBorrowedBooksByUser(userId);
 
             //Check if the user returned all of its borrowed books. 
@@ -37,12 +32,8 @@ namespace LibraryMVC.Controllers
             {
                 return RedirectToAction("BooksToReturn", new { userId });
             }
-
-            if (ModelState.IsValid)
-            {
-                _usersRepository.Deactivation(user);
-            }
-            return View(user);
+            _usersRepository.Deactivation(userId);
+            return View();
         }
 
         public IActionResult BooksToReturn(int userId)

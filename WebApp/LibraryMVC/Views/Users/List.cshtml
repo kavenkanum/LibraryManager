@@ -5,14 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Lista użytkowników</h2>
+<h2>List of the users</h2>
 
 <table class="table table-striped">
     <thead>
         <tr>
             <th>#</th>
-            <th>Imię</th>
-            <th>Nazwisko</th>
+            <th>Name</th>
+            <th>Surname</th>
             <th>Status</th>
             <th></th>
         </tr>
@@ -26,22 +26,18 @@
                 <td>@user.FirstName</td>
                 <td>@user.LastName</td>
                 <td>
-                    @if (user.IsActive)
+                    @if (user.Status == LibraryMVC.Domain.Entities.Status.Active)
                         {
-                    <span>Aktywny</span>
+                    <span>Active</span>
                         }
-                    @if(!user.IsActive)
+                    @if(user.Status != LibraryMVC.Domain.Entities.Status.Active)
                         {
-                    <span>Nieaktywny</span>
+                    <span>Inactive</span>
                         }
                 </td>
                 <td>
-                    <a href="@Url.Action("View", "User", new { id = user.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>Podgląd</a>
-                    <a href="@Url.Action("Edit", "User", new { id = user.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>Edytuj</a>
-                    @if (user.IsActive)
-                    {@Html.ActionLink("Dezaktywuj", "Deactivation", "User", new { userId = user.ID })}
-                    @if (!user.IsActive)
-                    {@Html.ActionLink("Aktywuj", "Activation", "User", new { userId = user.ID })}    
+                    <a href="@Url.Action("View", "User", new { id = user.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>View</a>
+                    <a href="@Url.Action("Edit", "User", new { id = user.ID })" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>Edit</a>
                 </td>
             </tr>
         }

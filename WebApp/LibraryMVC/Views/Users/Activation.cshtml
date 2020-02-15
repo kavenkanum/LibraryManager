@@ -5,14 +5,14 @@
 
 }
 
-    <h2>Wybierz z listy użytkownika, którego status chcesz zmienić.</h2>
+    <h2>Choose user, whose status you want to change.</h2>
 
-    <table>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>#</th>
-                <th>Imię</th>
-                <th>Nazwisko</th>
+                <th>Name</th>
+                <th>Surname</th>
                 <th>Status</th>
                 <th></th>
             </tr>
@@ -25,13 +25,13 @@
                 <td>@(index++)</td>
                 <td>@user.FirstName</td>
                 <td>@user.LastName</td>
-                @if (user.IsActive)
+                @if (user.Status == LibraryMVC.Domain.Entities.Status.Active)
                 {
-                    <td>@Html.ActionLink("Dezaktywuj", "Deactivation", "User")</td>
+                    <td>@Html.ActionLink("Deactivate", "Deactivation", "User", new { userId = user.ID})</td>
                 }
-                @if (!user.IsActive)
+                @if (user.Status != LibraryMVC.Domain.Entities.Status.Active)
                 {
-                    <td>@Html.ActionLink("Aktywuj", "Activation", "User")</td>
+                    <td>@Html.ActionLink("Activate", "Activation", "User", new { userId = user.ID})</td>
                 }
 
             </tr>
