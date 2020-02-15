@@ -1,6 +1,8 @@
 ﻿using LibraryMVC.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LibraryMVC.Domain
 {
@@ -8,7 +10,14 @@ namespace LibraryMVC.Domain
     {
         public LibraryDbContext(DbContextOptions<LibraryDbContext> options)
             : base(options){ }
-        
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+
+            optionsBuilder.ConfigureWarnings(w => w.Throw(RelationalEventId.QueryClientEvaluationWarning));
+        }
+
         public DbSet<Book> Books { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<User> Users { get; set; }
@@ -31,10 +40,12 @@ namespace LibraryMVC.Domain
                 .WithMany(u => u.BorrowedBooks)
                 .HasForeignKey(bb => bb.UserId);
 
-            modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<User>()
+                .ToTable("Users")
+                .Property(p => p.FullName)
+                .HasComputedColumnSql("[FirstName] + ' ' + [LastName]");
 
         }
-
         
     }
 }
